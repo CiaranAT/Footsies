@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace Footsies
 {
+    //<summary>
+    // Original AI implementation, deciding inputs based on reading game state, using hard coded sequences with slight randomness
+    //</summary>
+
 
     public class BattleAI
     {

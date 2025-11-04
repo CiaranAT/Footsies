@@ -5,9 +5,13 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
+
+# temporary files
 EditorUserSettings.asset
 shadercompiler-UnityShaderCompiler.exe-0.log
 default-6000.dwlt
+Search.index
+Search.settings
 
 /Assets/AssetStoreTools*
 

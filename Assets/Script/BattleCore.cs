@@ -65,6 +65,8 @@ namespace Footsies
 
         private BattleAI battleAI = null;
 
+        private PlayingAgent playingAgent = null;
+
         private static uint maxRecordingInputFrame = 60 * 60 * 5;
         private InputData[] recordingP1Input = new InputData[maxRecordingInputFrame];
         private InputData[] recordingP2Input = new InputData[maxRecordingInputFrame];
@@ -192,7 +194,8 @@ namespace Footsies
                     roundUIAnimator.SetTrigger("RoundStart");
 
                     if (GameManager.Instance.isVsCPU)
-                        battleAI = new BattleAI(this);
+                        //battleAI = new BattleAI(this);
+                        playingAgent = new PlayingAgent(this);
 
                     break;
                 case RoundStateType.Fight:
@@ -212,7 +215,8 @@ namespace Footsies
                     fighter1.ClearInput();
                     fighter2.ClearInput();
 
-                    battleAI = null;
+                    //battleAI = null;
+                    playingAgent = null;
 
                     roundUIAnimator.SetTrigger("RoundEnd");
 
@@ -328,9 +332,14 @@ namespace Footsies
 
             InputData p2Input = new InputData();
 
-            if (battleAI != null)
+            //if (battleAI != null)
+            //{
+            //    p2Input.input |= battleAI.getNextAIInput();
+
+            //}
+            if (playingAgent != null)
             {
-                p2Input.input |= battleAI.getNextAIInput();
+                p2Input.input |= playingAgent.getNextAIInput();
             }
             else
             {

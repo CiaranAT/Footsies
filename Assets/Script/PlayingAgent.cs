@@ -38,6 +38,24 @@ namespace Footsies
         {
             battleCore = core;
         }
+
+        public int getNextAIInput()
+        {
+            int input = 0;
+
+            if (moveQueue.Count > 0)
+            {
+                input |= moveQueue.Dequeue();
+            }
+                
+            if (attackQueue.Count > 0)
+            {
+                input |= attackQueue.Dequeue();
+            }
+
+            return input;
+        }
+
         private float GetDistanceX()
         {
             return Mathf.Abs(battleCore.fighter2.position.x - battleCore.fighter1.position.x);

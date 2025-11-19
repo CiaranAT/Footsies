@@ -84,6 +84,9 @@ namespace Footsies
 
             //Agent Position
             sensor.AddObservation(battleCore.fighter2.position.x);
+
+            //Distance Between Fighters
+            sensor.AddObservation(GetDistanceX());
         }
 
         public override void OnActionReceived(ActionBuffers actionBuffers)
@@ -102,20 +105,20 @@ namespace Footsies
             if (attack == 2) { moveQueue.Enqueue(GetAttackInput()); }
 
             //// Rewards
-            //float distanceToTarget = GetDistanceX();
 
-            //// Reached target
-            //if (distanceToTarget < 1.42f)
-            //{
-            //    SetReward(1.0f);
-            //    EndEpisode();
-            //}
+            //If Playing Agent hits Player, add reward and end episode 
+            if (battleCore.fighter1.isInHitStun) 
+            {
+                SetReward(1.0f);
+                EndEpisode();
+            }
 
-            //// Fell off platform
-            //else if (this.transform.localPosition.y < 0)
-            //{
-            //    EndEpisode();
-            //}
+            //If Playing Agent is too far away from Player, give negative reward and end episode
+            if (GetDistanceX() < 10f)
+            {
+                SetReward(-1.0f);
+                EndEpisode();
+            }
         }
 
         public override void Heuristic(in ActionBuffers actionsOut)

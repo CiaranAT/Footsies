@@ -97,11 +97,11 @@ namespace Footsies
             int attack = actionBuffers.DiscreteActions[1];
 
             // Look up the index in the movement action list:
-            if (movement == 1) { moveQueue.Enqueue(GetForwardInput()); } 
+            if (movement == 1) { moveQueue.Enqueue(GetForwardInput()); }
             if (movement == 2) { moveQueue.Enqueue(GetBackwardInput()); }
 
             // Look up the index in the attack action list:
-            // attack 1 == no input
+            if (attack == 1) { attackQueue.Enqueue(0); } //No Attack
             if (attack == 2) { moveQueue.Enqueue(GetAttackInput()); }
 
             //// Rewards

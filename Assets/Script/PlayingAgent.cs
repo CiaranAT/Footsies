@@ -7,72 +7,136 @@ using Unity.MLAgents.Actuators;
 
 namespace Footsies
 {
+    /// <summary>
+    /// Machine-Learning playing agent for computer opponent
+    /// </summary>
     public class PlayingAgent : Agent
     {
-        Rigidbody rBody;
-        void Start()
+                //currently copied code from BattleAI
+
+        public class FightState
         {
-            rBody = GetComponent<Rigidbody>();
+            public float distanceX;
+            public bool isOpponentDamage;
+            public bool isOpponentGuardBreak;
+            public bool isOpponentBlocking;
+            public bool isOpponentNormalAttack;
+            public bool isOpponentSpecialAttack;
         }
+
+        private BattleCore battleCore;
+
+        private Queue<int> moveQueue = new Queue<int>();
+        private Queue<int> attackQueue = new Queue<int>();
+
+        // previous fight state data
+        private FightState[] fightStates = new FightState[maxFightStateRecord];
+        public static readonly uint maxFightStateRecord = 10;
+        private int fightStateReadIndex = 5;
+
+        public PlayingAgent(BattleCore core)
+        {
+            battleCore = core;
+        }
+        private float GetDistanceX()
+        {
+            return Mathf.Abs(battleCore.fighter2.position.x - battleCore.fighter1.position.x);
+        }
+
+        private int GetAttackInput()
+        {
+            return (int)InputDefine.Attack;
+        }
+
+        private int GetForwardInput()
+        {
+            return (int)InputDefine.Left;
+        }
+
+        private int GetBackwardInput()
+        {
+            return (int)InputDefine.Right;
+        }
+
+                //Start of Playing Agent Implementation
 
         public Transform Target;
         public override void OnEpisodeBegin()
         {
-            // If the Agent fell, zero its momentum
-            if (this.transform.localPosition.y < 0)
-            {
-                this.rBody.angularVelocity = Vector3.zero;
-                this.rBody.linearVelocity = Vector3.zero;
-                this.transform.localPosition = new Vector3(0, 0.5f, 0);
-            }
+            //// If the Agent fell, zero its momentum
+            //if (this.transform.localPosition.y < 0)
+            //{
+            //    this.rBody.angularVelocity = Vector3.zero;
+            //    this.rBody.linearVelocity = Vector3.zero;
+            //    this.transform.localPosition = new Vector3(0, 0.5f, 0);
+            //}
 
-            // Move the target to a new spot
-            Target.localPosition = new Vector3(Random.value * 8 - 4,
-                                               0.5f,
-                                               Random.value * 8 - 4);
+            //// Move the target to a new spot
+            //Target.localPosition = new Vector3(Random.value * 8 - 4,
+            //                                   0.5f,
+            //                                   Random.value * 8 - 4);
         }
+
         public override void CollectObservations(VectorSensor sensor)
         {
-            // Target and Agent positions
-            sensor.AddObservation(Target.localPosition);
-            sensor.AddObservation(this.transform.localPosition);
+            // Opponent Position 
+            sensor.AddObservation(battleCore.fighter1.position.x);
 
-            // Agent velocity
-            sensor.AddObservation(rBody.linearVelocity.x);
-            sensor.AddObservation(rBody.linearVelocity.z);
+            //Agent Position
+            sensor.AddObservation(battleCore.fighter2.position.x);
         }
 
-        public float forceMultiplier = 10;
         public override void OnActionReceived(ActionBuffers actionBuffers)
         {
-            // Actions, size = 2
-            Vector3 controlSignal = Vector3.zero;
-            controlSignal.x = actionBuffers.ContinuousActions[0];
-            controlSignal.z = actionBuffers.ContinuousActions[1];
-            rBody.AddForce(controlSignal * forceMultiplier);
+            // Get the action index for movement
+            int movement = actionBuffers.DiscreteActions[0];
+            // Get the action index for attacking
+            int attack = actionBuffers.DiscreteActions[1];
 
-            // Rewards
-            float distanceToTarget = Vector3.Distance(this.transform.localPosition, Target.localPosition);
+            // Look up the index in the movement action list:
+            if (movement == 1) { moveQueue.Enqueue(GetForwardInput()); } 
+            if (movement == 2) { moveQueue.Enqueue(GetBackwardInput()); }
 
-            // Reached target
-            if (distanceToTarget < 1.42f)
-            {
-                SetReward(1.0f);
-                EndEpisode();
-            }
+            // Look up the index in the attack action list:
+            // attack 1 == no input
+            if (attack == 2) { moveQueue.Enqueue(GetAttackInput()); }
 
-            // Fell off platform
-            else if (this.transform.localPosition.y < 0)
-            {
-                EndEpisode();
-            }
+            //// Rewards
+            //float distanceToTarget = GetDistanceX();
+
+            //// Reached target
+            //if (distanceToTarget < 1.42f)
+            //{
+            //    SetReward(1.0f);
+            //    EndEpisode();
+            //}
+
+            //// Fell off platform
+            //else if (this.transform.localPosition.y < 0)
+            //{
+            //    EndEpisode();
+            //}
         }
 
         public override void Heuristic(in ActionBuffers actionsOut)
         {
-            var continuousActionsOut = actionsOut.ContinuousActions;
-            continuousActionsOut[0] = Input.GetAxis("Horizontal");
-            continuousActionsOut[1] = Input.GetAxis("Vertical");
+            var discreteActionsOut = actionsOut.DiscreteActions;
+
+            if (InputManager.Instance.GetButton(InputManager.Command.p2Left))
+            {
+                discreteActionsOut[1] = 1; //move forwards
+            }
+            else if (InputManager.Instance.GetButton(InputManager.Command.p2Right))
+            {
+                discreteActionsOut[1] = 2; //move backwards
+            }
+
+            if (InputManager.Instance.GetButton(InputManager.Command.p2Attack)) {
+                discreteActionsOut[1] = 2; //attack
+            }
+            else {
+                discreteActionsOut[1] = 1; //nothing
+            }
         }
     }
 }

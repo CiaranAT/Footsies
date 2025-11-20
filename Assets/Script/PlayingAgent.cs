@@ -34,7 +34,12 @@ namespace Footsies
         public static readonly uint maxFightStateRecord = 10;
         private int fightStateReadIndex = 5;
 
-        public PlayingAgent(BattleCore core)
+        //public PlayingAgent(BattleCore core)
+        //{
+        //    battleCore = core;
+        //}
+
+        public void Initialize(BattleCore core)
         {
             battleCore = core;
         }

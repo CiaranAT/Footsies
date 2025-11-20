@@ -63,7 +63,7 @@ namespace Footsies
 
         private Animator roundUIAnimator;
 
-        private BattleAI battleAI = null;
+        //private BattleAI battleAI = null;
 
         private PlayingAgent playingAgent;
 
@@ -234,7 +234,10 @@ namespace Footsies
                     {
                         if (deadFighter[0] == fighter1)
                         {
-                            fighter2RoundWon++;
+                            if (!GameManager.Instance.isVsCPU)
+                            {
+                                fighter2RoundWon++;
+                            }
                             fighter2.RequestWinAction();
                         }
                         else if (deadFighter[0] == fighter2)

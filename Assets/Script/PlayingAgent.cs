@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using Unity.MLAgents;
-using Unity.MLAgents.Sensors;
-using Unity.MLAgents.Actuators;
 using System.Runtime.CompilerServices;
+using Unity.MLAgents;
+using Unity.MLAgents.Actuators;
+using Unity.MLAgents.Sensors;
+using UnityEngine;
 
 namespace Footsies
 {
@@ -38,12 +38,12 @@ namespace Footsies
         }
 
         //Start of Playing Agent Implementation
-        public void Initialize(BattleCore core) //get reference to battle core, used to update p2 fighter with discrete inputs
+        public void Initialize(BattleCore core) //get reference to battle core, used to access game data
         {
             battleCore = core;
         }
 
-        public int getNextAIInput()
+        public int getNextAIInput() //called from BattleCore to update the playing agent fighter
         {
             return playingAgentInput;
         }
@@ -78,24 +78,30 @@ namespace Footsies
             // Look up the index in the movement action list:
             if (movement == 1) { playingAgentInput = GetForwardInput(); }
             if (movement == 2) { playingAgentInput = GetBackwardInput(); }
+            //movement 3 == no movement
 
             // Look up the index in the attack action list:
-            if (attack == 1) { } //No Attack
-            else if (attack == 2) { playingAgentInput = GetAttackInput(); }
+            if (attack == 1) { playingAgentInput = GetAttackInput(); }
+            //attack 2 == no jump
 
             //// Rewards
 
-            //If Playing Agent hits Player, add reward and end episode 
+            //positive reward when agent hits player 
             if (battleCore.fighter1.isInHitStun) 
             {
                 SetReward(1.0f);
-                EndEpisode();
             }
 
-            //If Playing Agent is too far away from Player, give negative reward and end episode
-            if (GetDistanceX() < 10f)
+            Debug.Log(GetDistanceX());
+
+            //negative reward when agent is far away from the player
+            if (GetDistanceX() < 6f)
             {
                 SetReward(-1.0f);
+            }
+
+            if (battleCore.roundState == BattleCore.RoundStateType.End) //End Episode when match is over
+            {
                 EndEpisode();
             }
         }
@@ -117,12 +123,8 @@ namespace Footsies
 
             if (InputManager.Instance.GetButton(InputManager.Command.p2Attack))
             {
-                discreteActionsOut[1] = 2; //attack
+                discreteActionsOut[1] = 1; //attack
                 Debug.Log("attack button pressed");
-            }
-            else
-            {
-                discreteActionsOut[1] = 1; //nothing
             }
         }
     }

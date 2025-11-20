@@ -50,7 +50,7 @@ namespace Footsies
 
         public override void OnEpisodeBegin()
         {
-                  
+            battleCore.callBattleStart();
         }
 
         public override void CollectObservations(VectorSensor sensor)
@@ -89,19 +89,22 @@ namespace Footsies
             //positive reward when agent hits player 
             if (battleCore.fighter1.isInHitStun) 
             {
-                SetReward(1.0f);
+                SetReward(0.5f);
             }
 
             Debug.Log(GetDistanceX());
 
             //negative reward when agent is far away from the player
-            if (GetDistanceX() < 6f)
+            if (GetDistanceX() > 6f && battleCore.roundState == BattleCore.RoundStateType.Fight)
             {
                 SetReward(-1.0f);
+                EndEpisode();
             }
 
-            if (battleCore.roundState == BattleCore.RoundStateType.End) //End Episode when match is over
+            //End Episode when match is over
+            if (battleCore.roundState == BattleCore.RoundStateType.End) 
             {
+                SetReward(1.0f); //add reward, as we are assuming player 1 isn't playing against the AI during current training
                 EndEpisode();
             }
         }

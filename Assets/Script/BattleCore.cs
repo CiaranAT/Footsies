@@ -234,6 +234,7 @@ namespace Footsies
                     {
                         if (deadFighter[0] == fighter1)
                         {
+                            //don't add win count if in VS CPU, so that ml-agents solo training can loop forever
                             if (!GameManager.Instance.isVsCPU)
                             {
                                 fighter2RoundWon++;
@@ -558,6 +559,12 @@ namespace Footsies
                 return p2FrameLeft - p1FrameLeft;
             else
                 return p1FrameLeft - p2FrameLeft;
+        }
+
+        public void callBattleStart()
+        {
+            fighter1.SetupBattleStart(fighterDataList[0], new Vector2(-2f, 0f), true);
+            fighter2.SetupBattleStart(fighterDataList[0], new Vector2(2f, 0f), false);
         }
     }
 

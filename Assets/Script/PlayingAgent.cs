@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
+using System.Runtime.CompilerServices;
 
 namespace Footsies
 {
@@ -12,54 +13,9 @@ namespace Footsies
     /// </summary>
     public class PlayingAgent : Agent
     {
-                //currently copied code from BattleAI
-
-        public class FightState
-        {
-            public float distanceX;
-            public bool isOpponentDamage;
-            public bool isOpponentGuardBreak;
-            public bool isOpponentBlocking;
-            public bool isOpponentNormalAttack;
-            public bool isOpponentSpecialAttack;
-        }
-
+      
         private BattleCore battleCore;
-
-        private Queue<int> moveQueue = new Queue<int>();
-        private Queue<int> attackQueue = new Queue<int>();
-
-        // previous fight state data
-        private FightState[] fightStates = new FightState[maxFightStateRecord];
-        public static readonly uint maxFightStateRecord = 10;
-        private int fightStateReadIndex = 5;
-
-        //public PlayingAgent(BattleCore core)
-        //{
-        //    battleCore = core;
-        //}
-
-        public void Initialize(BattleCore core)
-        {
-            battleCore = core;
-        }
-
-        public int getNextAIInput()
-        {
-            int input = 0;
-
-            if (moveQueue.Count > 0)
-            {
-                input |= moveQueue.Dequeue();
-            }
-                
-            if (attackQueue.Count > 0)
-            {
-                input |= attackQueue.Dequeue();
-            }
-
-            return input;
-        }
+        private int playingAgentInput;
 
         private float GetDistanceX()
         {
@@ -81,23 +37,20 @@ namespace Footsies
             return (int)InputDefine.Right;
         }
 
-                //Start of Playing Agent Implementation
+        //Start of Playing Agent Implementation
+        public void Initialize(BattleCore core) //get reference to battle core, used to update p2 fighter with discrete inputs
+        {
+            battleCore = core;
+        }
 
-        public Transform Target;
+        public int getNextAIInput()
+        {
+            return playingAgentInput;
+        }
+
         public override void OnEpisodeBegin()
         {
-            //// If the Agent fell, zero its momentum
-            //if (this.transform.localPosition.y < 0)
-            //{
-            //    this.rBody.angularVelocity = Vector3.zero;
-            //    this.rBody.linearVelocity = Vector3.zero;
-            //    this.transform.localPosition = new Vector3(0, 0.5f, 0);
-            //}
-
-            //// Move the target to a new spot
-            //Target.localPosition = new Vector3(Random.value * 8 - 4,
-            //                                   0.5f,
-            //                                   Random.value * 8 - 4);
+                  
         }
 
         public override void CollectObservations(VectorSensor sensor)
@@ -119,13 +72,16 @@ namespace Footsies
             // Get the action index for attacking
             int attack = actionBuffers.DiscreteActions[1];
 
+            //refresh input to 0 so that inputs aren't held
+            playingAgentInput = 0;
+
             // Look up the index in the movement action list:
-            if (movement == 1) { moveQueue.Enqueue(GetForwardInput()); }
-            if (movement == 2) { moveQueue.Enqueue(GetBackwardInput()); }
+            if (movement == 1) { playingAgentInput = GetForwardInput(); }
+            if (movement == 2) { playingAgentInput = GetBackwardInput(); }
 
             // Look up the index in the attack action list:
-            if (attack == 1) { attackQueue.Enqueue(0); } //No Attack
-            if (attack == 2) { moveQueue.Enqueue(GetAttackInput()); }
+            if (attack == 1) { } //No Attack
+            else if (attack == 2) { playingAgentInput = GetAttackInput(); }
 
             //// Rewards
 
@@ -150,17 +106,22 @@ namespace Footsies
 
             if (InputManager.Instance.GetButton(InputManager.Command.p2Left))
             {
-                discreteActionsOut[1] = 1; //move forwards
+                discreteActionsOut[0] = 1; //move forwards
+                Debug.Log("forwards button pressed");
             }
             else if (InputManager.Instance.GetButton(InputManager.Command.p2Right))
             {
-                discreteActionsOut[1] = 2; //move backwards
+                discreteActionsOut[0] = 2; //move backwards
+                Debug.Log("backwards button pressed");
             }
 
-            if (InputManager.Instance.GetButton(InputManager.Command.p2Attack)) {
+            if (InputManager.Instance.GetButton(InputManager.Command.p2Attack))
+            {
                 discreteActionsOut[1] = 2; //attack
+                Debug.Log("attack button pressed");
             }
-            else {
+            else
+            {
                 discreteActionsOut[1] = 1; //nothing
             }
         }

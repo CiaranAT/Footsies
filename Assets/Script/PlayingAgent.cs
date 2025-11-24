@@ -50,12 +50,13 @@ namespace Footsies
 
         public override void OnEpisodeBegin()
         {
-            battleCore.callBattleStart();
+            //temporarily removed for in-person feasibility demo
+            //battleCore.callBattleStart();
         }
 
         public override void CollectObservations(VectorSensor sensor)
         {
-            // Opponent Position 
+            //Opponent Position 
             sensor.AddObservation(battleCore.fighter1.position.x);
 
             //Agent Position

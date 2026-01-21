@@ -1,3 +1,4 @@
+using Google.Protobuf.WellKnownTypes;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -13,9 +14,27 @@ namespace Footsies
     /// </summary>
     public class PlayingAgent : Agent
     {
-      
+ 
+        public struct GameObservation
+        {
+            public GameObservation(float oppPos, float agentPos, float fightDist)
+            {
+                opponentPosition = oppPos;
+                agentPosition = agentPos;
+                fighterDistance = fightDist;
+            }
+
+            public float opponentPosition { get; set; }
+            public float agentPosition { get; set; }
+            public float fighterDistance { get; set; }
+
+        }
+
         private BattleCore battleCore;
         private int playingAgentInput;
+        // Observations are held in a queue to later be sent to the playing agent, the aim of this is to mimic human reaction time delay 
+        private Queue<GameObservation> observationQueue = new Queue<GameObservation>();
+        public static readonly uint maxObservationRecord = 20; //how many observations must be in the queue before being sent to the playing agent
 
         private float GetDistanceX()
         {
@@ -56,6 +75,10 @@ namespace Footsies
 
         public override void CollectObservations(VectorSensor sensor)
         {
+            GameObservation newObservation = new GameObservation(battleCore.fighter1.position.x, battleCore.fighter2.position.x, GetDistanceX());
+
+            observationQueue.Enqueue(newObservation);
+
             //Opponent Position 
             sensor.AddObservation(battleCore.fighter1.position.x);
 

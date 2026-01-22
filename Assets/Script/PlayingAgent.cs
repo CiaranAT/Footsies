@@ -79,14 +79,29 @@ namespace Footsies
 
             observationQueue.Enqueue(newObservation);
 
-            //Opponent Position 
-            sensor.AddObservation(battleCore.fighter1.position.x);
+            if(observationQueue.Count >= maxObservationRecord)
+            {
+                newObservation = observationQueue.Dequeue();
 
-            //Agent Position
-            sensor.AddObservation(battleCore.fighter2.position.x);
+                //Opponent Position 
+                sensor.AddObservation(newObservation.opponentPosition);
 
-            //Distance Between Fighters
-            sensor.AddObservation(GetDistanceX());
+                //Agent Position
+                sensor.AddObservation(newObservation.agentPosition);
+
+                //Distance Between Fighters
+                sensor.AddObservation(newObservation.fighterDistance);
+
+                ////Opponent Position 
+                //sensor.AddObservation(battleCore.fighter1.position.x);
+
+                ////Agent Position
+                //sensor.AddObservation(battleCore.fighter2.position.x);
+
+                ////Distance Between Fighters
+                //sensor.AddObservation(GetDistanceX());
+            }
+
         }
 
         public override void OnActionReceived(ActionBuffers actionBuffers)
@@ -106,7 +121,7 @@ namespace Footsies
 
             // Look up the index in the attack action list:
             if (attack == 1) { playingAgentInput = GetAttackInput(); }
-            //attack 2 == no jump
+            //attack 2 == no attack
 
             //// Rewards
 

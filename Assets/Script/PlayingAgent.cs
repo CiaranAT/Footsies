@@ -17,16 +17,18 @@ namespace Footsies
  
         public struct GameObservation
         {
-            public GameObservation(float oppPos, float agentPos, float fightDist)
+            public GameObservation(float oppPos, float agentPos, float fightDist, int oppState)
             {
                 opponentPosition = oppPos;
                 agentPosition = agentPos;
-                fighterDistance = fightDist;
+                fightersDistance = fightDist;
+                opponentState = oppState;
             }
 
             public float opponentPosition { get; set; }
             public float agentPosition { get; set; }
-            public float fighterDistance { get; set; }
+            public float fightersDistance { get; set; }
+            public int opponentState { get; set; }
 
         }
 
@@ -75,37 +77,36 @@ namespace Footsies
 
         public override void OnEpisodeBegin()
         {
+            //clear observation queue for new round, avoids adding observations from the previous round
+            observationQueue.Clear();
+
             //temporarily removed for in-person feasibility demo
             //battleCore.callBattleStart();
         }
 
         public override void CollectObservations(VectorSensor sensor)
         {
-            GameObservation newObservation = new GameObservation(battleCore.fighter1.position.x, battleCore.fighter2.position.x, GetDistanceX());
+            GameObservation newObservation = new GameObservation(battleCore.fighter1.position.x, battleCore.fighter2.position.x, GetDistanceX(), battleCore.fighter1.currentActionID);
 
             observationQueue.Enqueue(newObservation);
 
             if(observationQueue.Count >= maxObservationRecord)
             {
-                newObservation = observationQueue.Dequeue();
+                GameObservation delayedObservation = observationQueue.Dequeue();
 
-                //Opponent Position 
-                sensor.AddObservation(newObservation.opponentPosition);
+                //Opponent position 
+                sensor.AddObservation(delayedObservation.opponentPosition);
 
-                //Agent Position
-                sensor.AddObservation(newObservation.agentPosition);
+                //Agent position
+                sensor.AddObservation(delayedObservation.agentPosition);
 
-                //Distance Between Fighters
-                sensor.AddObservation(newObservation.fighterDistance);
+                //Distance between fighters
+                sensor.AddObservation(delayedObservation.fightersDistance);
 
-                ////Opponent Position 
-                //sensor.AddObservation(battleCore.fighter1.position.x);
+                    //CURRENTLY NOT INCLUDED IN MODEL
 
-                ////Agent Position
-                //sensor.AddObservation(battleCore.fighter2.position.x);
-
-                ////Distance Between Fighters
-                //sensor.AddObservation(GetDistanceX());
+                //Opponent's current action
+                sensor.AddObservation(delayedObservation.opponentState);
             }
 
         }

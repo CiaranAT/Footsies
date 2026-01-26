@@ -198,7 +198,7 @@ namespace Footsies
                        //battleAI = new BattleAI(this);
                        //playingAgent = new PlayingAgent(this);
                        playingAgent = GameObject.Find("PlayingAgent").GetComponent<PlayingAgent>();
-                       playingAgent.Initialize(this);
+                       playingAgent.Initialize(this, true);
                     }
 
                     break;

@@ -33,6 +33,7 @@ namespace Footsies
         }
 
         private BattleCore battleCore;
+        private bool isP2 = true;
         private int playingAgentInput;
         // Observations are held in a queue to later be sent to the playing agent, the aim of this is to mimic human reaction time delay 
         private Queue<GameObservation> observationQueue = new Queue<GameObservation>();
@@ -64,10 +65,22 @@ namespace Footsies
             return (int)InputDefine.None;
         }
 
+        private Fighter GetThisFighter()
+        {
+            return isP2 == false ? battleCore.fighter1 : battleCore.fighter2;
+        }
+
+        private Fighter GetOpponentFighter()
+        {
+            return isP2 == true ? battleCore.fighter1 : battleCore.fighter2;
+        }
+
         //Start of Playing Agent Implementation
-        public void Initialize(BattleCore core) //get reference to battle core, used to access game data
+        public void Initialize(BattleCore core, bool is_this_P2) //get reference to battle core, used to access game data
         {
             battleCore = core;
+
+            isP2 = is_this_P2;
         }
 
         public int getNextAIInput() //called from BattleCore to update the playing agent fighter

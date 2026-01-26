@@ -99,7 +99,7 @@ namespace Footsies
 
         public override void CollectObservations(VectorSensor sensor)
         {
-            GameObservation newObservation = new GameObservation(battleCore.fighter1.position.x, battleCore.fighter2.position.x, GetDistanceX(), battleCore.fighter1.currentActionID);
+            GameObservation newObservation = new GameObservation(GetOpponentFighter().position.x, GetOpponentFighter().position.x, GetDistanceX(), GetOpponentFighter().currentActionID);
 
             observationQueue.Enqueue(newObservation);
 
@@ -146,7 +146,7 @@ namespace Footsies
             //// Rewards
 
             //positive reward when agent hits player 
-            if (battleCore.fighter1.isInHitStun) 
+            if (GetOpponentFighter().isInHitStun) 
             {
                 SetReward(0.5f);
             }

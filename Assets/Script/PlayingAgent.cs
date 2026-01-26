@@ -57,6 +57,11 @@ namespace Footsies
             return (int)InputDefine.Right;
         }
 
+        private int GetNeutralInput()
+        {
+            return (int)InputDefine.None;
+        }
+
         //Start of Playing Agent Implementation
         public void Initialize(BattleCore core) //get reference to battle core, used to access game data
         {
@@ -116,13 +121,13 @@ namespace Footsies
             playingAgentInput = 0;
 
             // Look up the index in the movement action list:
-            if (movement == 1) { playingAgentInput = GetForwardInput(); }
-            if (movement == 2) { playingAgentInput = GetBackwardInput(); }
-            //movement 3 == no movement
+            if (movement == 1) { playingAgentInput |= GetForwardInput(); }
+            if (movement == 2) { playingAgentInput |= GetBackwardInput(); }
+            if (movement == 3) { playingAgentInput |= GetNeutralInput(); }
 
             // Look up the index in the attack action list:
-            if (attack == 1) { playingAgentInput = GetAttackInput(); }
-            //attack 2 == no attack
+            if (attack == 1) { playingAgentInput |= GetAttackInput(); }
+            if (attack == 2) { playingAgentInput |= GetNeutralInput(); }
 
             //// Rewards
 

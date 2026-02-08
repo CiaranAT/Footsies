@@ -100,72 +100,77 @@ namespace Footsies
 
         public override void CollectObservations(VectorSensor sensor)
         {
-            GameObservation newObservation = new GameObservation(GetOpponentFighter().position.x, GetOpponentFighter().position.x, GetDistanceX(), GetOpponentFighter().currentActionID);
-
-            observationQueue.Enqueue(newObservation);
-
-            if(observationQueue.Count >= maxObservationRecord)
+            if (isInitialised)
             {
-                GameObservation delayedObservation = observationQueue.Dequeue();
+                GameObservation newObservation = new GameObservation(GetOpponentFighter().position.x, GetOpponentFighter().position.x, GetDistanceX(), GetOpponentFighter().currentActionID);
 
-                //Opponent position 
-                sensor.AddObservation(delayedObservation.opponentPosition);
+                observationQueue.Enqueue(newObservation);
 
-                //Agent position
-                sensor.AddObservation(delayedObservation.agentPosition);
+                if (observationQueue.Count >= maxObservationRecord)
+                {
+                    GameObservation delayedObservation = observationQueue.Dequeue();
 
-                //Distance between fighters
-                sensor.AddObservation(delayedObservation.fightersDistance);
+                    //Opponent position 
+                    sensor.AddObservation(delayedObservation.opponentPosition);
+
+                    //Agent position
+                    sensor.AddObservation(delayedObservation.agentPosition);
+
+                    //Distance between fighters
+                    sensor.AddObservation(delayedObservation.fightersDistance);
 
                     //CURRENTLY NOT INCLUDED IN MODEL
 
-                //Opponent's current action
-                sensor.AddObservation(delayedObservation.opponentState);
+                    //Opponent's current action
+                    sensor.AddObservation(delayedObservation.opponentState);
+                }
             }
-
         }
 
         public override void OnActionReceived(ActionBuffers actionBuffers)
         {
-            // Get the action index for movement
-            int movement = actionBuffers.DiscreteActions[0];
-            // Get the action index for attacking
-            int attack = actionBuffers.DiscreteActions[1];
-
-            //refresh input to 0 so that inputs aren't held
-            playingAgentInput = 0;
-
-            // Look up the index in the movement action list:
-            if (movement == 1) { playingAgentInput |= GetForwardInput(); }
-            if (movement == 2) { playingAgentInput |= GetBackwardInput(); }
-            if (movement == 3) { playingAgentInput |= GetNeutralInput(); }
-
-            // Look up the index in the attack action list:
-            if (attack == 1) { playingAgentInput |= GetAttackInput(); }
-            if (attack == 2) { playingAgentInput |= GetNeutralInput(); }
-
-            //// Rewards
-
-            //positive reward when agent hits player 
-            if (GetOpponentFighter().isInHitStun) 
+            if (isInitialised)
             {
-                SetReward(0.5f);
-            }
+                // Get the action index for movement
+                int movement = actionBuffers.DiscreteActions[0];
+                // Get the action index for attacking
+                int attack = actionBuffers.DiscreteActions[1];
 
-            Debug.Log(GetDistanceX());
+                //refresh input to 0 so that inputs aren't held
+                playingAgentInput = 0;
 
-            //negative reward when agent is far away from the player
-            if (GetDistanceX() > 6f && battleCore.roundState == BattleCore.RoundStateType.Fight)
-            {
-                SetReward(-1.0f);
-                EndEpisode();
-            }
+                // Look up the index in the movement action list:
+                if (movement == 1) { playingAgentInput |= GetForwardInput(); }
+                if (movement == 2) { playingAgentInput |= GetBackwardInput(); }
+                if (movement == 3) { playingAgentInput |= GetNeutralInput(); }
 
-            //End Episode when match is over
-            if (battleCore.roundState == BattleCore.RoundStateType.End) 
-            {
-                SetReward(1.0f); //add reward, as we are assuming player 1 isn't playing against the AI during current training
-                EndEpisode();
+                // Look up the index in the attack action list:
+                if (attack == 1) { playingAgentInput |= GetAttackInput(); }
+                if (attack == 2) { playingAgentInput |= GetNeutralInput(); }
+
+                //// Rewards
+
+                //positive reward when agent hits player 
+                if (GetOpponentFighter().isInHitStun) 
+                {
+                    SetReward(0.5f);
+                }
+
+                Debug.Log(GetDistanceX());
+
+                //negative reward when agent is far away from the player
+                if (GetDistanceX() > 6f && battleCore.roundState == BattleCore.RoundStateType.Fight)
+                {
+                    SetReward(-1.0f);
+                    EndEpisode();
+                }
+
+                //End Episode when match is over
+                if (battleCore.roundState == BattleCore.RoundStateType.End) 
+                {
+                    SetReward(1.0f); //add reward, as we are assuming player 1 isn't playing against the AI during current training
+                    EndEpisode();
+                }
             }
         }
 

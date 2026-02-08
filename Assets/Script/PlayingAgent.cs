@@ -175,7 +175,10 @@ namespace Footsies
                 if (GetDistanceX() > 6f && battleCore.roundState == BattleCore.RoundStateType.Fight)
                 {
                     SetReward(-1.0f);
-                    EndEpisode();
+                    if (isP2)
+                    {
+                        EndEpisode();
+                    }
                 }
 
                 //End Episode when match is over

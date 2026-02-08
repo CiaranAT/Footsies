@@ -66,6 +66,7 @@ namespace Footsies
         //private BattleAI battleAI = null;
 
         private PlayingAgent playingAgent;
+        private PlayingAgent trainingPlayingAgent; //playing agent that replaces player 1 in CPUVsCPU gamemode 
 
         private static uint maxRecordingInputFrame = 60 * 60 * 5;
         private InputData[] recordingP1Input = new InputData[maxRecordingInputFrame];
@@ -199,6 +200,12 @@ namespace Footsies
                        //playingAgent = new PlayingAgent(this);
                        playingAgent = GameObject.Find("PlayingAgent").GetComponent<PlayingAgent>();
                        playingAgent.Initialize(this, true);
+
+                        if (GameManager.Instance.isCPUVsCPU)
+                        {
+                            trainingPlayingAgent = playingAgent;
+                            trainingPlayingAgent.Initialize(this, false);
+                        }
                     }
 
                     break;
@@ -316,9 +323,18 @@ namespace Footsies
             var time = Time.fixedTime - roundStartTime;
 
             InputData p1Input = new InputData();
-            p1Input.input |= InputManager.Instance.GetButton(InputManager.Command.p1Left) ? (int)InputDefine.Left : 0;
-            p1Input.input |= InputManager.Instance.GetButton(InputManager.Command.p1Right) ? (int)InputDefine.Right : 0;
-            p1Input.input |= InputManager.Instance.GetButton(InputManager.Command.p1Attack) ? (int)InputDefine.Attack : 0;
+
+            if (trainingPlayingAgent != null)
+            {
+                p1Input.input |= playingAgent.getNextAIInput();
+            }
+            else
+            {
+                p1Input.input |= InputManager.Instance.GetButton(InputManager.Command.p1Left) ? (int)InputDefine.Left : 0;
+                p1Input.input |= InputManager.Instance.GetButton(InputManager.Command.p1Right) ? (int)InputDefine.Right : 0;
+                p1Input.input |= InputManager.Instance.GetButton(InputManager.Command.p1Attack) ? (int)InputDefine.Attack : 0;
+            }
+           
             p1Input.time = time;
 
             if (debugP1Attack)

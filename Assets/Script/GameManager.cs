@@ -17,6 +17,7 @@ namespace Footsies
 
         public SceneIndex currentScene { get; private set; }
         public bool isVsCPU { get; private set; }
+        public bool isCPUVsCPU { get; private set; }
 
         private void Awake()
         {
@@ -50,12 +51,14 @@ namespace Footsies
         public void LoadVsPlayerScene()
         {
             isVsCPU = false;
+            isCPUVsCPU = false;
             LoadBattleScene();
         }
 
         public void LoadVsCPUScene()
         {
             isVsCPU = true;
+            isCPUVsCPU = false;
             LoadBattleScene();
         }
 
@@ -63,6 +66,7 @@ namespace Footsies
         {
             Debug.Log("Load CPUVsCPU scene called");
             isVsCPU = true;
+            isCPUVsCPU = true;
             LoadBattleScene();
         }
 

@@ -73,7 +73,7 @@ namespace Footsies
 
         public void LoadCPUVsCPU()
         {
-            Debug.Log("Load CPUVsCPU title button pressed");
+            GameManager.Instance.LoadCPUVsCPUScene();
         }
 
         public void toggleBGM()

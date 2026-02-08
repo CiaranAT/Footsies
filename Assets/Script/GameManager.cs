@@ -59,6 +59,11 @@ namespace Footsies
             LoadBattleScene();
         }
 
+        public void LoadCPUVsCPUScene()
+        {
+            Debug.Log("Load CPUVsCPU scene called");
+        }
+
         private void LoadBattleScene()
         {
             SceneManager.LoadScene((int)SceneIndex.Battle);

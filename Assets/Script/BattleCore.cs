@@ -203,7 +203,7 @@ namespace Footsies
 
                         if (GameManager.Instance.isCPUVsCPU)
                         {
-                            trainingPlayingAgent = GameObject.Find("TrainingPlayingAgent").GetComponent<PlayingAgent>();
+                            trainingPlayingAgent = GameObject.Find("PlayingAgent").GetComponent<PlayingAgent>();
                             trainingPlayingAgent.Initialize(this, false);
                         }
                     }

@@ -65,8 +65,8 @@ namespace Footsies
 
         //private BattleAI battleAI = null;
 
-        private PlayingAgent playingAgent;
-        private PlayingAgent trainingPlayingAgent; //playing agent that replaces player 1 in CPUVsCPU gamemode 
+        private PlayingAgent playingAgent = null;
+        private PlayingAgent trainingPlayingAgent = null; //playing agent that replaces player 1 in CPUVsCPU gamemode 
 
         private static uint maxRecordingInputFrame = 60 * 60 * 5;
         private InputData[] recordingP1Input = new InputData[maxRecordingInputFrame];
@@ -237,15 +237,12 @@ namespace Footsies
                     timer = endStateTime;
 
                     var deadFighter = _fighters.FindAll((f) => f.isDead);
-                    if (deadFighter.Count == 1)
+                    //don't add win count if in CPU VS CPU, so that ml-agents solo training can loop forever
+                    if (deadFighter.Count == 1 && !GameManager.Instance.isCPUVsCPU) 
                     {
                         if (deadFighter[0] == fighter1)
                         {
-                            //don't add win count if in VS CPU, so that ml-agents solo training can loop forever
-                            if (!GameManager.Instance.isVsCPU)
-                            {
-                                fighter2RoundWon++;
-                            }
+                            fighter2RoundWon++;
                             fighter2.RequestWinAction();
                         }
                         else if (deadFighter[0] == fighter2)

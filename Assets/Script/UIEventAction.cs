@@ -15,6 +15,7 @@ namespace Footsies
             ExitGame,
             BGMToggle,
             SEToggle,
+            LoadCPUVsCPU
         }
 
         public Action action;
@@ -49,6 +50,9 @@ namespace Footsies
                     break;
                 case Action.SEToggle:
                     break;
+                case Action.LoadCPUVsCPU:
+                    LoadCPUVsCPU();
+                    break;
             }
         }
 
@@ -65,6 +69,11 @@ namespace Footsies
         public void ExitGame()
         {
             Application.Quit();
+        }
+
+        public void LoadCPUVsCPU()
+        {
+            Debug.Log("Load CPUVsCPU title button pressed");
         }
 
         public void toggleBGM()

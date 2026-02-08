@@ -98,6 +98,19 @@ namespace Footsies
             //battleCore.callBattleStart();
         }
 
+        public void giveRoundOverReward(bool isP2win)
+        {
+            if (isP2win == isP2)
+            {
+                SetReward(1.0f); 
+                EndEpisode();
+            }
+            else
+            {
+                SetReward(-1.0f);
+            }
+        }
+
         public override void CollectObservations(VectorSensor sensor)
         {
             if (isInitialised)
@@ -166,11 +179,11 @@ namespace Footsies
                 }
 
                 //End Episode when match is over
-                if (battleCore.roundState == BattleCore.RoundStateType.End) 
-                {
-                    SetReward(1.0f); //add reward, as we are assuming player 1 isn't playing against the AI during current training
-                    EndEpisode();
-                }
+                //if (battleCore.roundState == BattleCore.RoundStateType.End)
+                //{ 
+                //    SetReward(1.0f); //add reward, as we are assuming player 1 isn't playing against the AI during current training
+                //    EndEpisode();
+                //}
             }
         }
 

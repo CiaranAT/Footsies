@@ -203,7 +203,7 @@ namespace Footsies
 
                         if (GameManager.Instance.isCPUVsCPU)
                         {
-                            trainingPlayingAgent = GameObject.Find("PlayingAgent").GetComponent<PlayingAgent>();
+                            trainingPlayingAgent = GameObject.Find("TrainingPlayingAgent").GetComponent<PlayingAgent>();
                             trainingPlayingAgent.Initialize(this, false);
                         }
                     }
@@ -237,18 +237,39 @@ namespace Footsies
                     timer = endStateTime;
 
                     var deadFighter = _fighters.FindAll((f) => f.isDead);
+                    
+                    if (deadFighter.Count > 1)
+                    {
+                        //draw, no points
+                    }
                     //don't add win count if in CPU VS CPU, so that ml-agents solo training can loop forever
-                    if (deadFighter.Count == 1 && !GameManager.Instance.isCPUVsCPU) 
+                    else if (deadFighter.Count == 1)
                     {
                         if (deadFighter[0] == fighter1)
                         {
-                            fighter2RoundWon++;
-                            fighter2.RequestWinAction();
+                            if (!GameManager.Instance.isCPUVsCPU)
+                            {
+                                fighter2RoundWon++;
+                                fighter2.RequestWinAction();
+                            }
+                            else
+                            {
+                                playingAgent.giveRoundOverReward(true);
+                                trainingPlayingAgent.giveRoundOverReward(false);
+                            }
                         }
                         else if (deadFighter[0] == fighter2)
                         {
-                            fighter1RoundWon++;
-                            fighter1.RequestWinAction();
+                            if (!GameManager.Instance.isCPUVsCPU)
+                            {
+                                fighter1RoundWon++;
+                                fighter1.RequestWinAction();
+                            }
+                            else
+                            {
+                                playingAgent.giveRoundOverReward(false);
+                                trainingPlayingAgent.giveRoundOverReward(false);
+                            }
                         }
                     }
 

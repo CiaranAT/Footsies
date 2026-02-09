@@ -66,7 +66,7 @@ namespace Footsies
         //private BattleAI battleAI = null;
 
         private PlayingAgent playingAgent = null;
-        private PlayingAgent trainingPlayingAgent = null; //playing agent that replaces player 1 in CPUVsCPU gamemode 
+        private PlayingAgent trainingOpponentAgent = null; //playing agent that replaces player 1 in CPUVsCPU gamemode 
 
         private static uint maxRecordingInputFrame = 60 * 60 * 5;
         private InputData[] recordingP1Input = new InputData[maxRecordingInputFrame];
@@ -203,8 +203,8 @@ namespace Footsies
 
                         if (GameManager.Instance.isCPUVsCPU)
                         {
-                            trainingPlayingAgent = GameObject.Find("TrainingPlayingAgent").GetComponent<PlayingAgent>();
-                            trainingPlayingAgent.Initialize(this, false);
+                            trainingOpponentAgent = GameObject.Find("TrainingOpponentAgent").GetComponent<PlayingAgent>();
+                            trainingOpponentAgent.Initialize(this, false);
                         }
                     }
 
@@ -255,7 +255,7 @@ namespace Footsies
                             else
                             {
                                 playingAgent.giveRoundOverReward(true);
-                                trainingPlayingAgent.giveRoundOverReward(false);
+                                trainingOpponentAgent.giveRoundOverReward(false);
                             }
                         }
                         else if (deadFighter[0] == fighter2)
@@ -268,7 +268,7 @@ namespace Footsies
                             else
                             {
                                 playingAgent.giveRoundOverReward(false);
-                                trainingPlayingAgent.giveRoundOverReward(false);
+                                trainingOpponentAgent.giveRoundOverReward(false);
                             }
                         }
                     }
@@ -342,7 +342,7 @@ namespace Footsies
 
             InputData p1Input = new InputData();
 
-            if (trainingPlayingAgent != null)
+            if (trainingOpponentAgent != null)
             {
                 p1Input.input |= playingAgent.getNextAIInput();
             }

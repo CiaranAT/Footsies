@@ -307,8 +307,8 @@ MonoBehaviour:
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
-  m_BehaviorName: My Behavior
-  TeamId: 0
+  m_BehaviorName: P2Agent
+  TeamId: 2
   m_UseChildSensors: 1
   m_UseChildActuators: 1
   m_ObservableAttributeHandling: 0
@@ -415,7 +415,7 @@ GameObject:
   - component: {fileID: 1888859157}
   - component: {fileID: 1888859156}
   m_Layer: 0
-  m_Name: TrainingPlayingAgent
+  m_Name: TrainingOpponentAgent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -460,8 +460,8 @@ MonoBehaviour:
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
-  m_BehaviorName: My Behavior
-  TeamId: 0
+  m_BehaviorName: P1Agent
+  TeamId: 1
   m_UseChildSensors: 1
   m_UseChildActuators: 1
   m_ObservableAttributeHandling: 0

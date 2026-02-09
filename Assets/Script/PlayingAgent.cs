@@ -132,8 +132,6 @@ namespace Footsies
                     //Distance between fighters
                     sensor.AddObservation(delayedObservation.fightersDistance);
 
-                    //CURRENTLY NOT INCLUDED IN MODEL
-
                     //Opponent's current action
                     sensor.AddObservation(delayedObservation.opponentState);
                 }
@@ -163,10 +161,16 @@ namespace Footsies
 
                 //// Rewards
 
-                //positive reward when agent hits player 
+                //positive reward when agent hits opponent 
                 if (GetOpponentFighter().isInHitStun) 
                 {
                     SetReward(0.5f);
+                }
+
+                //negative reward when agent is hit
+                if (GetThisFighter().isInHitStun)
+                {
+                    SetReward(-0.5f);
                 }
 
                 Debug.Log(GetDistanceX());

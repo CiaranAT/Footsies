@@ -344,7 +344,7 @@ namespace Footsies
 
             if (trainingOpponentAgent != null)
             {
-                p1Input.input |= playingAgent.getNextAIInput();
+                p1Input.input |= trainingOpponentAgent.getNextAIInput();
             }
             else
             {

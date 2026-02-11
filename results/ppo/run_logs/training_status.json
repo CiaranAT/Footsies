@@ -1,45 +1,45 @@
 {
-    "P1Agent": {
-        "checkpoints": [
-            {
-                "steps": 64192,
-                "file_path": "results\\ppo\\P1Agent\\P1Agent-64192.onnx",
-                "reward": -14.5,
-                "creation_time": 1770645003.9658816,
-                "auxillary_file_paths": [
-                    "results\\ppo\\P1Agent\\P1Agent-64192.pt"
-                ]
-            }
-        ],
-        "final_checkpoint": {
-            "steps": 64192,
-            "file_path": "results\\ppo\\P1Agent.onnx",
-            "reward": -14.5,
-            "creation_time": 1770645003.9658816,
-            "auxillary_file_paths": [
-                "results\\ppo\\P1Agent\\P1Agent-64192.pt"
-            ]
-        }
-    },
     "P2Agent": {
         "checkpoints": [
             {
-                "steps": 64192,
-                "file_path": "results\\ppo\\P2Agent\\P2Agent-64192.onnx",
-                "reward": -14.5,
-                "creation_time": 1770645004.1456785,
+                "steps": 2832,
+                "file_path": "results\\ppo\\P2Agent\\P2Agent-2832.onnx",
+                "reward": -26.75,
+                "creation_time": 1770807223.4395242,
                 "auxillary_file_paths": [
-                    "results\\ppo\\P2Agent\\P2Agent-64192.pt"
+                    "results\\ppo\\P2Agent\\P2Agent-2832.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 64192,
+            "steps": 2832,
             "file_path": "results\\ppo\\P2Agent.onnx",
-            "reward": -14.5,
-            "creation_time": 1770645004.1456785,
+            "reward": -26.75,
+            "creation_time": 1770807223.4395242,
             "auxillary_file_paths": [
-                "results\\ppo\\P2Agent\\P2Agent-64192.pt"
+                "results\\ppo\\P2Agent\\P2Agent-2832.pt"
+            ]
+        }
+    },
+    "P1Agent": {
+        "checkpoints": [
+            {
+                "steps": 2832,
+                "file_path": "results\\ppo\\P1Agent\\P1Agent-2832.onnx",
+                "reward": -26.75,
+                "creation_time": 1770807223.5858388,
+                "auxillary_file_paths": [
+                    "results\\ppo\\P1Agent\\P1Agent-2832.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 2832,
+            "file_path": "results\\ppo\\P1Agent.onnx",
+            "reward": -26.75,
+            "creation_time": 1770807223.5858388,
+            "auxillary_file_paths": [
+                "results\\ppo\\P1Agent\\P1Agent-2832.pt"
             ]
         }
     },

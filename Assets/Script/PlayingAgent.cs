@@ -6,6 +6,7 @@ using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 namespace Footsies
 {
@@ -108,6 +109,7 @@ namespace Footsies
             else
             {
                 SetReward(-1.0f);
+                EndEpisode();
             }
         }
 
@@ -115,7 +117,11 @@ namespace Footsies
         {
             if (isInitialised)
             {
-                GameObservation newObservation = new GameObservation(GetOpponentFighter().position.x, GetOpponentFighter().position.x, GetDistanceX(), GetOpponentFighter().currentActionID);
+                Vector2 pos = GetThisFighter().position;
+                Vector2 oppPos = GetOpponentFighter().position;
+                float dist = GetDistanceX();
+
+                GameObservation newObservation = new GameObservation(oppPos.x, pos.x, dist, GetOpponentFighter().currentActionID);
 
                 observationQueue.Enqueue(newObservation);
 
@@ -134,6 +140,31 @@ namespace Footsies
 
                     //Opponent's current action
                     sensor.AddObservation(delayedObservation.opponentState);
+                }
+
+                Debug.Log(GetDistanceX());
+                Debug.Log(pos + " & is player 2 " + isP2.ToString());
+
+                // Continuous negative rewards
+
+                if (battleCore.roundState == BattleCore.RoundStateType.Fight)
+                {
+                    //Larger continous negative reward when agent has put themself against a wall
+                    if (pos.x < -4 || pos.x > 4)
+                    {
+                        SetReward(-0.09f);
+                    }
+                    else { SetReward(-0.03f); }
+
+                    //Larger continous negative reward if agent is too far or close from opponent
+                    if (dist > 4.5)
+                    {
+                        SetReward(-0.09f);
+                    }
+                    else if (dist < 2.0)
+                    {
+                        SetReward(-0.09f);
+                    }
                 }
             }
         }
@@ -159,38 +190,6 @@ namespace Footsies
                 if (attack == 1) { playingAgentInput |= GetAttackInput(); }
                 if (attack == 2) { playingAgentInput |= GetNeutralInput(); }
 
-                //// Rewards
-
-                //positive reward when agent hits opponent 
-                if (GetOpponentFighter().isInHitStun) 
-                {
-                    SetReward(0.5f);
-                }
-
-                //negative reward when agent is hit
-                if (GetThisFighter().isInHitStun)
-                {
-                    SetReward(-0.5f);
-                }
-
-                Debug.Log(GetDistanceX());
-
-                //negative reward when agent is far away from the player
-                if (GetDistanceX() > 6f && battleCore.roundState == BattleCore.RoundStateType.Fight)
-                {
-                    SetReward(-1.0f);
-                    if (isP2)
-                    {
-                        EndEpisode();
-                    }
-                }
-
-                //End Episode when match is over
-                //if (battleCore.roundState == BattleCore.RoundStateType.End)
-                //{ 
-                //    SetReward(1.0f); //add reward, as we are assuming player 1 isn't playing against the AI during current training
-                //    EndEpisode();
-                //}
             }
         }
 

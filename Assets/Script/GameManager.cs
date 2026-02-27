@@ -29,6 +29,7 @@ namespace Footsies
         private void Start()
         {
             LoadTitleScene();
+            FileSystem.SaveReplayFile();
         }
 
         private void Update()

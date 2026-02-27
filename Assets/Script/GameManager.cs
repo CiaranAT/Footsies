@@ -30,7 +30,6 @@ namespace Footsies
         private void Start()
         {
             LoadTitleScene();
-            FileSystem.SaveNewReplayFile("test");
 
         }
 
@@ -55,7 +54,6 @@ namespace Footsies
         {
             isVsCPU = false;
             isCPUVsCPU = false;
-            FileSystem.AppendToReplayFile("PVP");
             LoadBattleScene();
         }
 

@@ -120,6 +120,7 @@ namespace Footsies
                     if (timer <= 0f)
                     {
                         ChangeRoundState(RoundStateType.Fight);
+                        FileSystem.SaveNewReplayFile("Start");
                     }
 
                     if (debugPlayLastRoundInput
@@ -312,6 +313,9 @@ namespace Footsies
             UpdatePushCharacterVsCharacter();
             UpdatePushCharacterVsBackground();
             UpdateHitboxHurtboxCollision();
+
+            FileSystem.AppendToReplayFile(p1Input.input.ToString());
+            FileSystem.AppendToReplayFile(p2Input.input.ToString());
         }
 
         void UpdateKOState()

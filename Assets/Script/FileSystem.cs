@@ -10,7 +10,7 @@ public class FileSystem
     public static void SaveReplayFile()
     {
         string filePath = Application.persistentDataPath + FILENAME;
-        string txt = JsonUtility.ToJson("hello");
-        File.WriteAllText(filePath, contents: txt);
+        string txt = JsonUtility.ToJson(FILENAME);
+        File.WriteAllText(filePath, contents:FILENAME);
     }
 }

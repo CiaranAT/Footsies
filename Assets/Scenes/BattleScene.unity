@@ -318,8 +318,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1888859159}
   - component: {fileID: 1888859158}
-  - component: {fileID: 1888859157}
   - component: {fileID: 1888859156}
+  - component: {fileID: 1888859157}
   m_Layer: 0
   m_Name: TrainingOpponentAgent
   m_TagString: Untagged

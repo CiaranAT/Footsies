@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Footsies
+
 {
     public class GameManager : Singleton<GameManager>
     {
@@ -29,7 +30,8 @@ namespace Footsies
         private void Start()
         {
             LoadTitleScene();
-            FileSystem.SaveReplayFile();
+            FileSystem.SaveNewReplayFile("test");
+
         }
 
         private void Update()
@@ -53,6 +55,7 @@ namespace Footsies
         {
             isVsCPU = false;
             isCPUVsCPU = false;
+            FileSystem.AppendToReplayFile("PVP");
             LoadBattleScene();
         }
 

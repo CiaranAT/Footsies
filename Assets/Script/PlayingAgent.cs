@@ -117,8 +117,8 @@ namespace Footsies
         {
             if (isInitialised)
             {
-                Vector2 pos = GetThisFighter().position;
-                Vector2 oppPos = GetOpponentFighter().position;
+                Vector2 pos = battleCore.fighter1.position;
+                Vector2 oppPos = battleCore.fighter2.position;
                 float dist = GetDistanceX();
 
                 GameObservation newObservation = new GameObservation(oppPos.x, pos.x, dist, GetOpponentFighter().currentActionID);
@@ -143,27 +143,27 @@ namespace Footsies
                 }
 
                 Debug.Log(GetDistanceX());
-                Debug.Log(pos + " & is player 2 " + isP2.ToString());
+                Debug.Log(GetThisFighter().position.x + " & is player 2 " + isP2.ToString());
 
                 // Continuous negative rewards
 
                 if (battleCore.roundState == BattleCore.RoundStateType.Fight)
                 {
-                    //Larger continous negative reward when agent has put themself against a wall
-                    if (pos.x < -4 || pos.x > 4)
+                    //Larger continous negative reward when agent goes to one side of level
+                    if (GetThisFighter().position.x < -2.5 || GetThisFighter().position.x > 2.5)
                     {
-                        SetReward(-0.09f);
+                        SetReward(-0.15f);
                     }
                     else { SetReward(-0.03f); }
 
                     //Larger continous negative reward if agent is too far or close from opponent
-                    if (dist > 4.5)
+                    if (dist > 4.0)
                     {
-                        SetReward(-0.09f);
+                        SetReward(-0.15f);
                     }
                     else if (dist < 2.0)
                     {
-                        SetReward(-0.09f);
+                        SetReward(-0.15f);
                     }
                 }
             }

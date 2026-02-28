@@ -99,9 +99,9 @@ namespace Footsies
             //battleCore.callBattleStart();
         }
 
-        public void giveRoundOverReward(bool isP2win)
+        public void giveRoundOverReward(bool isWinner)
         {
-            if (isP2win == isP2)
+            if (isWinner)
             {
                 SetReward(1.0f); 
                 EndEpisode();

@@ -227,9 +227,6 @@ namespace Footsies
                     fighter1.ClearInput();
                     fighter2.ClearInput();
 
-                    //battleAI = null;
-                    playingAgent = null;
-
                     roundUIAnimator.SetTrigger("RoundEnd");
 
                     break;
@@ -255,8 +252,8 @@ namespace Footsies
                             }
                             else
                             {
-                                playingAgent.giveRoundOverReward(true);
                                 trainingOpponentAgent.giveRoundOverReward(false);
+                                playingAgent.giveRoundOverReward(true);
                             }
                         }
                         else if (deadFighter[0] == fighter2)
@@ -268,8 +265,8 @@ namespace Footsies
                             }
                             else
                             {
+                                trainingOpponentAgent.giveRoundOverReward(true);
                                 playingAgent.giveRoundOverReward(false);
-                                trainingOpponentAgent.giveRoundOverReward(false);
                             }
                         }
                     }

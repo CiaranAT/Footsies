@@ -18,11 +18,11 @@ namespace Footsies
  
         public struct GameObservation
         {
-            public GameObservation(float agent_pos, int agent_state, float fight_dist, float opp_pos, int opp_state)
+            public GameObservation(float fight_dist, float opp_pos, int opp_state)
             {
-                //agent's self data
-                agentPosition = agent_pos;
-                agentState = agent_state;
+                ////agent's self data
+                //agentPosition = agent_pos;
+                //agentState = agent_state;
 
                 //general match data
                 fightersDistance = fight_dist;
@@ -32,8 +32,8 @@ namespace Footsies
                 opponentState = opp_state;
             }
 
-            public float agentPosition { get; set; }
-            public int agentState { get; set; }
+            //public float agentPosition { get; set; }
+            //public int agentState { get; set; }
             public float fightersDistance { get; set; }
             public float opponentPosition { get; set; }
             public int opponentState { get; set; }
@@ -101,9 +101,6 @@ namespace Footsies
         {
             //clear observation queue for new round, avoids adding observations from the previous round
             delayedObservationQueue.Clear();
-
-            //temporarily removed for in-person feasibility demo
-            //battleCore.callBattleStart();
         }
 
         public void giveRoundOverReward(bool isWinner)
@@ -132,7 +129,7 @@ namespace Footsies
                 float opponent_pos = GetOpponentFighter().position.x;
                 int opponent_state = GetOpponentFighter().currentActionID;
 
-                GameObservation newDelayedObservation = new GameObservation(this_agent_pos, this_agent_state, fighters_dist, opponent_pos, opponent_state);
+                GameObservation newDelayedObservation = new GameObservation(fighters_dist, opponent_pos, opponent_state);
 
                 delayedObservationQueue.Enqueue(newDelayedObservation);
 
@@ -140,9 +137,11 @@ namespace Footsies
                 {
                     GameObservation delayedObservation = delayedObservationQueue.Dequeue();
 
-                    //Agent's self observations
-                    sensor.AddObservation(delayedObservation.agentPosition);
-                    sensor.AddObservation(delayedObservation.agentState);
+                    //Agent's self observations (these observations are not delayed as they are variables directly controlled by the agent)
+                    sensor.AddObservation(this_agent_pos);
+                    sensor.AddObservation(this_agent_state);
+
+                        //the following observations are delayed by human reaction speeds as they are variables that the agent cannot control
 
                     //Game state observations
                     sensor.AddObservation(delayedObservation.fightersDistance);

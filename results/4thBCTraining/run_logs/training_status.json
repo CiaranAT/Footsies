@@ -1,0 +1,30 @@
+{
+    "FootsiesAgent": {
+        "elo": 1201.0376961616678,
+        "checkpoints": [
+            {
+                "steps": 11794,
+                "file_path": "results\\4thBCTraining\\FootsiesAgent\\FootsiesAgent-11794.onnx",
+                "reward": -49.72999672840039,
+                "creation_time": 1772625619.085932,
+                "auxillary_file_paths": [
+                    "results\\4thBCTraining\\FootsiesAgent\\FootsiesAgent-11794.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 11794,
+            "file_path": "results\\4thBCTraining\\FootsiesAgent.onnx",
+            "reward": -49.72999672840039,
+            "creation_time": 1772625619.085932,
+            "auxillary_file_paths": [
+                "results\\4thBCTraining\\FootsiesAgent\\FootsiesAgent-11794.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.2.0.dev0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

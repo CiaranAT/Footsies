@@ -18,17 +18,24 @@ namespace Footsies
  
         public struct GameObservation
         {
-            public GameObservation(float oppPos, float agentPos, float fightDist, int oppState)
+            public GameObservation(float agent_pos, int agent_state, float fight_dist, float opp_pos, int opp_state)
             {
-                opponentPosition = oppPos;
-                agentPosition = agentPos;
-                fightersDistance = fightDist;
-                opponentState = oppState;
+                //agent's self data
+                agentPosition = agent_pos;
+                agentState = agent_state;
+
+                //general match data
+                fightersDistance = fight_dist;
+
+                //opponent data
+                opponentPosition = opp_pos;
+                opponentState = opp_state;
             }
 
-            public float opponentPosition { get; set; }
             public float agentPosition { get; set; }
+            public int agentState { get; set; }
             public float fightersDistance { get; set; }
+            public float opponentPosition { get; set; }
             public int opponentState { get; set; }
 
         }
@@ -38,7 +45,7 @@ namespace Footsies
         private bool isInitialised = false;
         private int playingAgentInput;
         // Observations are held in a queue to later be sent to the playing agent, the aim of this is to mimic human reaction time delay 
-        private Queue<GameObservation> observationQueue = new Queue<GameObservation>();
+        private Queue<GameObservation> delayedObservationQueue = new Queue<GameObservation>();
         //how many observations must be in the queue before being sent to the playing agent
         public static readonly uint maxObservationRecord = 13; //average human reaction time is 250ms and observations use fixed step every 20ms, so there must be 13 updates to simulate reaction delay
 
@@ -93,7 +100,7 @@ namespace Footsies
         public override void OnEpisodeBegin()
         {
             //clear observation queue for new round, avoids adding observations from the previous round
-            observationQueue.Clear();
+            delayedObservationQueue.Clear();
 
             //temporarily removed for in-person feasibility demo
             //battleCore.callBattleStart();
@@ -117,51 +124,54 @@ namespace Footsies
         {
             if (isInitialised)
             {
-                Vector2 pos = battleCore.fighter1.position;
-                Vector2 oppPos = battleCore.fighter2.position;
-                float dist = GetDistanceX();
+                float this_agent_pos = GetThisFighter().position.x;
+                int this_agent_state = GetThisFighter().currentActionID;
 
-                GameObservation newObservation = new GameObservation(oppPos.x, pos.x, dist, GetOpponentFighter().currentActionID);
+                float fighters_dist = GetDistanceX();
 
-                observationQueue.Enqueue(newObservation);
+                float opponent_pos = GetOpponentFighter().position.x;
+                int opponent_state = GetOpponentFighter().currentActionID;
 
-                if (observationQueue.Count >= maxObservationRecord)
+                GameObservation newDelayedObservation = new GameObservation(this_agent_pos, this_agent_state, fighters_dist, opponent_pos, opponent_state);
+
+                delayedObservationQueue.Enqueue(newDelayedObservation);
+
+                if (delayedObservationQueue.Count >= maxObservationRecord)
                 {
-                    GameObservation delayedObservation = observationQueue.Dequeue();
+                    GameObservation delayedObservation = delayedObservationQueue.Dequeue();
 
-                    //Opponent position 
-                    sensor.AddObservation(delayedObservation.opponentPosition);
-
-                    //Agent position
+                    //Agent's self observations
                     sensor.AddObservation(delayedObservation.agentPosition);
+                    sensor.AddObservation(delayedObservation.agentState);
 
-                    //Distance between fighters
+                    //Game state observations
                     sensor.AddObservation(delayedObservation.fightersDistance);
 
-                    //Opponent's current action
+                    //Observations of opponent
+                    sensor.AddObservation(delayedObservation.opponentPosition);
                     sensor.AddObservation(delayedObservation.opponentState);
                 }
 
-                Debug.Log(GetDistanceX());
-                Debug.Log(GetThisFighter().position.x + " & is player 2 " + isP2.ToString());
+                Debug.Log("Fighter distance: " + fighters_dist);
+                Debug.Log("is player 2 " + isP2.ToString() + " - position: " + this_agent_pos + " - state: " + this_agent_state);
 
                 // Continuous negative rewards
 
                 if (battleCore.roundState == BattleCore.RoundStateType.Fight)
                 {
                     //Larger continous negative reward when agent goes to one side of level
-                    if (GetThisFighter().position.x < -2.5 || GetThisFighter().position.x > 2.5)
+                    if (this_agent_pos < -2.5 || this_agent_pos > 2.5)
                     {
                         SetReward(-0.15f);
                     }
                     else { SetReward(-0.03f); }
 
                     //Larger continous negative reward if agent is too far or close from opponent
-                    if (dist > 4.0)
+                    if (fighters_dist > 4.0)
                     {
                         SetReward(-0.15f);
                     }
-                    else if (dist < 2.0)
+                    else if (fighters_dist < 2.0)
                     {
                         SetReward(-0.15f);
                     }

@@ -1,0 +1,30 @@
+{
+    "FootsiesAgent": {
+        "elo": 1165.8596255781843,
+        "checkpoints": [
+            {
+                "steps": 197770,
+                "file_path": "results\\FirstAmendedObservations\\FootsiesAgent\\FootsiesAgent-197770.onnx",
+                "reward": -5.070666598280271,
+                "creation_time": 1772633498.7384872,
+                "auxillary_file_paths": [
+                    "results\\FirstAmendedObservations\\FootsiesAgent\\FootsiesAgent-197770.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 197770,
+            "file_path": "results\\FirstAmendedObservations\\FootsiesAgent.onnx",
+            "reward": -5.070666598280271,
+            "creation_time": 1772633498.7384872,
+            "auxillary_file_paths": [
+                "results\\FirstAmendedObservations\\FootsiesAgent\\FootsiesAgent-197770.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.2.0.dev0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

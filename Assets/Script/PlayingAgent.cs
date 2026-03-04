@@ -47,7 +47,7 @@ namespace Footsies
         // Observations are held in a queue to later be sent to the playing agent, the aim of this is to mimic human reaction time delay 
         private Queue<GameObservation> delayedObservationQueue = new Queue<GameObservation>();
         //how many observations must be in the queue before being sent to the playing agent
-        public static readonly uint maxObservationRecord = 13; //average human reaction time is 250ms and observations use fixed step every 20ms, so there must be 13 updates to simulate reaction delay
+        public static readonly uint maxObservationRecord = 10; //average human reaction time ranges from 200ms to 250ms, observations use fixed step every 20ms, so there must be 10 updates to simulate reaction delay
 
         private float GetDistanceX()
         {

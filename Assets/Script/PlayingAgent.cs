@@ -128,6 +128,7 @@ namespace Footsies
 
                 float opponent_pos = GetOpponentFighter().position.x;
                 int opponent_state = GetOpponentFighter().currentActionID;
+                bool is_opponent_in_hitstun = GetOpponentFighter().isInHitStun;
 
                 if (!isP2) //invert observations for p1 agent so that obervation values are the same on both player sides
                 {
@@ -152,9 +153,12 @@ namespace Footsies
                     sensor.AddObservation(delayedObservation.fightersDistance);
 
                     //Observations of opponent
-                    sensor.AddObservation(delayedObservation.opponentPosition);
+                    //sensor.AddObservation(delayedObservation.opponentPosition);
                     sensor.AddObservation(delayedObservation.opponentState);
+                    // this observation is not delayed as the putting the opponent in hitstun is controllable by the agent and is a reaction point for follow up attacks
+                    sensor.AddObservation(is_opponent_in_hitstun);
                 }
+                 
 
                 Debug.Log("Fighter distance: " + fighters_dist);
                 Debug.Log("is player 2 " + isP2.ToString() + " - position: " + this_agent_pos + " - state: " + this_agent_state);
@@ -170,7 +174,7 @@ namespace Footsies
                     }
                     else { SetReward(-0.03f); }
 
-                    //Larger continous negative reward if agent is too far or close from opponent
+                    //Larger continous negative reward if agent is too far from or too close to the opponent
                     if (fighters_dist > 4.0)
                     {
                         SetReward(-0.15f);

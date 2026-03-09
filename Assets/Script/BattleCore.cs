@@ -247,7 +247,7 @@ namespace Footsies
                         {
                             if (!GameManager.Instance.isCPUVsCPU)
                             {
-                                fighter2RoundWon++;
+                               // fighter2RoundWon++;
                                 fighter2.RequestWinAction();
                             }
                             else
@@ -260,7 +260,7 @@ namespace Footsies
                         {
                             if (!GameManager.Instance.isCPUVsCPU)
                             {
-                                fighter1RoundWon++;
+                               // fighter1RoundWon++;
                                 fighter1.RequestWinAction();
                             }
                             else

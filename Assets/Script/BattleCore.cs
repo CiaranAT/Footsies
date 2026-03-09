@@ -120,7 +120,7 @@ namespace Footsies
                     if (timer <= 0f)
                     {
                         ChangeRoundState(RoundStateType.Fight);
-                        FileSystem.SaveNewReplayFile("Start");
+                        GameManager.Instance.fileSystem.SaveNewReplayFile();
                     }
 
                     if (debugPlayLastRoundInput
@@ -311,8 +311,8 @@ namespace Footsies
             UpdatePushCharacterVsBackground();
             UpdateHitboxHurtboxCollision();
 
-            FileSystem.AppendToReplayFile(p1Input.input.ToString());
-            FileSystem.AppendToReplayFile(p2Input.input.ToString());
+            //FileSystem.Instance.AppendInputsToReplayFile(p1Input.input.ToString());
+            //FileSystem.Instance.AppendInputsToReplayFile(p2Input.input.ToString());
         }
 
         void UpdateKOState()

@@ -363,7 +363,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 0}
+  m_Model: {fileID: 5022602860645237092, guid: c2899dde7ccd84047a6e2fefc961826d, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: FootsiesAgent
@@ -424,7 +424,8 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5022602860645237092, guid: c2899dde7ccd84047a6e2fefc961826d,
+        type: 3}
     - target: {fileID: 5937015299338901729, guid: 6556e3cbb4f455743a22ed6876105424,
         type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
@@ -507,7 +508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2902496c0120472b90269f94a0aec7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Demonstrations.DemonstrationRecorder
-  Record: 1
+  Record: 0
   NumStepsToRecord: 0
   DemonstrationName: AmendedVsPlayer
   DemonstrationDirectory: Demos

@@ -129,6 +129,11 @@ namespace Footsies
                 float opponent_pos = GetOpponentFighter().position.x;
                 int opponent_state = GetOpponentFighter().currentActionID;
 
+                if (!isP2) //invert observations for p1 agent so that obervation values are the same on both player sides
+                {
+                    this_agent_pos *= -1; opponent_pos *= -1;
+                }
+
                 GameObservation newDelayedObservation = new GameObservation(fighters_dist, opponent_pos, opponent_state);
 
                 delayedObservationQueue.Enqueue(newDelayedObservation);
@@ -170,7 +175,7 @@ namespace Footsies
                     {
                         SetReward(-0.15f);
                     }
-                    else if (fighters_dist < 2.0)
+                    else if (fighters_dist < 2.5)
                     {
                         SetReward(-0.15f);
                     }
@@ -191,8 +196,17 @@ namespace Footsies
                 playingAgentInput = 0;
 
                 // Look up the index in the movement action list:
-                if (movement == 1) { playingAgentInput |= GetForwardInput(); }
-                if (movement == 2) { playingAgentInput |= GetBackwardInput(); }
+                if (isP2)
+                {
+                    if (movement == 1) { playingAgentInput |= GetForwardInput(); }
+                    if (movement == 2) { playingAgentInput |= GetBackwardInput(); }
+                }
+                else //inverted movement if player 1, so that "forwards" is the same input for both player sides
+                {
+                    if (movement == 1) { playingAgentInput |= GetBackwardInput(); }
+                    if (movement == 2) { playingAgentInput |= GetForwardInput(); }
+                }
+
                 if (movement == 3) { playingAgentInput |= GetNeutralInput(); }
 
                 // Look up the index in the attack action list:

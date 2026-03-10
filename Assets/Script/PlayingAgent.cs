@@ -2,6 +2,7 @@ using Google.Protobuf.WellKnownTypes;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.Barracuda;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
@@ -47,7 +48,8 @@ namespace Footsies
         // Observations are held in a queue to later be sent to the playing agent, the aim of this is to mimic human reaction time delay 
         private Queue<GameObservation> delayedObservationQueue = new Queue<GameObservation>();
         //how many observations must be in the queue before being sent to the playing agent
-        public static readonly uint maxObservationRecord = 10; //average human reaction time ranges from 200ms to 250ms, observations use fixed step every 20ms, so there must be 10 updates to simulate reaction delay
+        public static readonly uint MAX_OBSERVATION_RECORD = 10; //average human reaction time ranges from 200ms to 250ms, observations use fixed step every 20ms, so there must be 10 updates to simulate reaction delay
+        private static readonly uint OBSERVATION_SPACE_SIZE = 5;
 
         private float GetDistanceX()
         {
@@ -83,6 +85,15 @@ namespace Footsies
         {
             return isP2 == true ? battleCore.fighter1 : battleCore.fighter2;
         }
+
+        private void AddPaddedObservations(VectorSensor sensor)
+        {
+            for (int i = 0; i < OBSERVATION_SPACE_SIZE; i++)
+            {
+                sensor.AddObservation(0);
+            }
+        }
+
 
         //Start of Playing Agent Implementation
         public void Initialize(BattleCore core, bool is_this_P2) //get reference to battle core, used to access game data
@@ -139,7 +150,7 @@ namespace Footsies
 
                 delayedObservationQueue.Enqueue(newDelayedObservation);
 
-                if (delayedObservationQueue.Count >= maxObservationRecord)
+                if (delayedObservationQueue.Count >= MAX_OBSERVATION_RECORD)
                 {
                     GameObservation delayedObservation = delayedObservationQueue.Dequeue();
 
@@ -147,7 +158,7 @@ namespace Footsies
                     sensor.AddObservation(this_agent_pos);
                     sensor.AddObservation(this_agent_state);
 
-                        //the following observations are delayed by human reaction speeds as they are variables that the agent cannot control
+                    //the following observations are delayed by human reaction speeds as they are variables that the agent cannot control
 
                     //Game state observations
                     sensor.AddObservation(delayedObservation.fightersDistance);
@@ -158,7 +169,8 @@ namespace Footsies
                     // this observation is not delayed as the putting the opponent in hitstun is controllable by the agent and is a reaction point for follow up attacks
                     sensor.AddObservation(is_opponent_in_hitstun);
                 }
-                 
+                else AddPaddedObservations(sensor);
+
 
                 Debug.Log("Fighter distance: " + fighters_dist);
                 Debug.Log("is player 2 " + isP2.ToString() + " - position: " + this_agent_pos + " - state: " + this_agent_state);
@@ -185,6 +197,7 @@ namespace Footsies
                     }
                 }
             }
+            else AddPaddedObservations(sensor);
         }
 
         public override void OnActionReceived(ActionBuffers actionBuffers)

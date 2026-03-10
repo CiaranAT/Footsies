@@ -88,6 +88,20 @@ public class FileSystem : MonoBehaviour
 }
 
 [Serializable]
+public struct MatchSetupData
+{
+    public bool isVsCPU;
+    public bool isCPUVsCPU;
+    public string matchStartTime;
+}
+[Serializable]
+public struct MatchResultData
+{
+    public int p1Wins;
+    public int p2Wins;
+}
+
+[Serializable]
 public class FighterRecordData
 {
     public bool isP1;
@@ -105,27 +119,23 @@ public class FighterRecordData
 [Serializable]
 public class MatchStartData
 {
-    public bool isVsCPU;
-    public bool isCPUVsCPU;
-    public string matchStartTime;
+    public MatchSetupData setupData;
 
     public MatchStartData(string startTime) {
-        isVsCPU = GameManager.Instance.isVsCPU;
-        isCPUVsCPU = GameManager.Instance.isCPUVsCPU;
-        matchStartTime = startTime;
-
+        setupData.isVsCPU = GameManager.Instance.isVsCPU;
+        setupData.isCPUVsCPU = GameManager.Instance.isCPUVsCPU;
+        setupData.matchStartTime = startTime;
     }
 }
 
 [Serializable]
 public class MatchEndData
 {
-    public int p1Wins;
-    public int p2Wins;
+    public MatchResultData resultData;
     public MatchEndData(BattleCore battleCore)
     {
-        p1Wins = (int)battleCore.fighter1RoundWon;
-        p2Wins = (int)battleCore.fighter2RoundWon;
+        resultData.p1Wins = (int)battleCore.fighter1RoundWon;
+        resultData.p2Wins = (int)battleCore.fighter2RoundWon;
     }
 
 }

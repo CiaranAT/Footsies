@@ -8,8 +8,6 @@ namespace Footsies
 {
     public class GameManager : Singleton<GameManager>
     {
-        public FileSystem fileSystem = new FileSystem();
-
         public enum SceneIndex
         {
             Title = 1,

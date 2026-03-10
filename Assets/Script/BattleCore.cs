@@ -120,7 +120,7 @@ namespace Footsies
                     if (timer <= 0f)
                     {
                         ChangeRoundState(RoundStateType.Fight);
-                        GameManager.Instance.fileSystem.SaveNewReplayFile();
+                        FileSystem.Instance.SaveNewReplayFile();
                     }
 
                     if (debugPlayLastRoundInput

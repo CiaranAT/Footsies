@@ -23,11 +23,24 @@ public class FileSystem : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public const string FILENAMESTART = "/matchdata-";
-    public const string FILENAMEEND = ".json";
+    public const string FILENAME_START = "/matchdata-";
+    public const string FILENAME_END = ".json";
 
     public string fileNameTime;
     public DateTime time;
+
+    public MatchSaveData matchSaveData;
+    int MAX_FIGHTER_DATA_LIST_SIZE = 20;
+
+    string getFilePath()
+    {
+        return Application.persistentDataPath + FILENAME_START + fileNameTime + FILENAME_END;
+    }
+
+    void appendToFile(object data)
+    {
+
+    }
 
     public void SaveNewReplayFile()
     {
@@ -42,80 +55,112 @@ public class FileSystem : MonoBehaviour
 
         //fileStartTime = "/" + 
 
-        string filePath = Application.persistentDataPath + FILENAMESTART + fileNameTime + FILENAMEEND;
-        string txt = JsonUtility.ToJson(matchStartData);
+        string filePath = getFilePath();
+        string txt = JsonUtility.ToJson(matchStartData, true);
         File.WriteAllText(filePath, contents: txt);
     }
 
     public void AppendInputsToReplayFile(string inputs_str)
     {
-        string filePath = Application.persistentDataPath + fileNameTime + FILENAMEEND;
-        string txt = JsonUtility.ToJson(inputs_str);
+        string filePath = getFilePath();
+        string txt = JsonUtility.ToJson(inputs_str, true);
         File.AppendAllText(filePath, contents: inputs_str);
     }
 
     public void AppendFighterData(Fighter fighter)
     {
-        SavedFighterData fighterData = new SavedFighterData(fighter);
+        FighterRecordData fighterData = new FighterRecordData(fighter);
 
-        string filePath = Application.persistentDataPath + fileNameTime + FILENAMEEND;
-        string txt = JsonUtility.ToJson(fighterData);
+        string filePath = getFilePath();
+        string txt = JsonUtility.ToJson(fighterData, true);
         File.AppendAllText(filePath, contents: txt);
+    }
+
+    public void DumpFighterData()
+    {
+        string filePath = getFilePath();
+        string txt = JsonUtility.ToJson(matchSaveData, true);
+        File.AppendAllText(filePath, contents: txt);
+
+        matchSaveData.fighterDataList.Clear();
     }
 
     public void AppendMatchEndData(BattleCore battleCore)
     {
         MatchEndData matchEndData = new MatchEndData(battleCore);
 
-        string filePath = Application.persistentDataPath + fileNameTime + FILENAMEEND;
-        string txt = JsonUtility.ToJson(matchEndData);
+        string filePath = Application.persistentDataPath + fileNameTime + FILENAME_END;
+        string txt = JsonUtility.ToJson(matchEndData, true);
         File.AppendAllText(filePath, contents: txt);
+    }
+    public void StoreFighterData(BattleCore battleCore)
+    {
+        FighterRecordData fighter1Data = new FighterRecordData(battleCore.fighter1);
+        FighterRecordData fighter2Data = new FighterRecordData(battleCore.fighter2);
+
+        matchSaveData.fighterDataList.Add(fighter1Data);
+        matchSaveData.fighterDataList.Add(fighter2Data);
+
+        if(matchSaveData.fighterDataList.Count >= MAX_FIGHTER_DATA_LIST_SIZE)
+        {
+            DumpFighterData();
+        }
     }
 }
 
-    public class SavedFighterData
-    {
-        bool isPlayerOne;
-        float positionX;
-        int currentActionID;
+[Serializable]
+public class FighterRecordData
+{
+    public bool isPlayerOne;
+    public float positionX;
+    public int currentActionID;
 
-        public SavedFighterData(Fighter fighter)
-        {
-            isPlayerOne = fighter.isFaceRight;
-            positionX = fighter.position.x;
-            currentActionID = fighter.currentActionID;
-        }
-        public void setFighterData(Fighter fighter)
-        {
-            isPlayerOne = fighter.isFaceRight;
-            positionX = fighter.position.x;
-            currentActionID = fighter.currentActionID;
-        }
+    public FighterRecordData(Fighter fighter)
+    {
+        isPlayerOne = fighter.isFaceRight;
+        positionX = fighter.position.x;
+        currentActionID = fighter.currentActionID;
     }
-
-    public class MatchStartData
+    public void setFighterData(Fighter fighter)
     {
-        public bool isVsCPU;
-        public bool isCPUVsCPU;
-        public string matchStartTime;
-
-        public MatchStartData(string startTime) {
-            isVsCPU = GameManager.Instance.isVsCPU;
-            isCPUVsCPU = GameManager.Instance.isCPUVsCPU;
-            matchStartTime = startTime;
-
-        }
+        isPlayerOne = fighter.isFaceRight;
+        positionX = fighter.position.x;
+        currentActionID = fighter.currentActionID;
     }
+}
 
-    public class MatchEndData
-    {
-        bool isPlayerOneWinner;
-        int playerOneWinCount;
-        int playerTwoWinCount;
-        public MatchEndData(BattleCore battleCore)
-        {
-            playerOneWinCount = (int)battleCore.fighter1RoundWon;
-            playerTwoWinCount = (int)battleCore.fighter2RoundWon;
-        }
+[Serializable]
+public class MatchStartData
+{
+    public bool isVsCPU;
+    public bool isCPUVsCPU;
+    public string matchStartTime;
+
+    public MatchStartData(string startTime) {
+        isVsCPU = GameManager.Instance.isVsCPU;
+        isCPUVsCPU = GameManager.Instance.isCPUVsCPU;
+        matchStartTime = startTime;
 
     }
+}
+
+[Serializable]
+public class MatchEndData
+{
+    bool isPlayerOneWinner;
+    int playerOneWinCount;
+    int playerTwoWinCount;
+    public MatchEndData(BattleCore battleCore)
+    {
+        playerOneWinCount = (int)battleCore.fighter1RoundWon;
+        playerTwoWinCount = (int)battleCore.fighter2RoundWon;
+    }
+
+}
+
+[Serializable]
+public class MatchSaveData
+{
+    public List<FighterRecordData> fighterDataList;
+}
+

@@ -37,13 +37,10 @@ public class FileSystem : MonoBehaviour
         return Application.persistentDataPath + FILENAME_START + fileNameTime + FILENAME_END;
     }
 
-    void appendToFile(object data)
-    {
-
-    }
-
     public void SaveNewReplayFile()
     {
+        matchSaveData.fighterDataList.Clear();
+
         time = DateTime.Now;
 
         fileNameTime = time.Day.ToString() + "-" + time.Month.ToString() + "-" + time.Year.ToString()
@@ -51,29 +48,9 @@ public class FileSystem : MonoBehaviour
 
         MatchStartData matchStartData = new MatchStartData(fileNameTime);
 
-        //DateTime startTime = DateTime.Now;
-
-        //fileStartTime = "/" + 
-
         string filePath = getFilePath();
         string txt = JsonUtility.ToJson(matchStartData, true);
         File.WriteAllText(filePath, contents: txt);
-    }
-
-    public void AppendInputsToReplayFile(string inputs_str)
-    {
-        string filePath = getFilePath();
-        string txt = JsonUtility.ToJson(inputs_str, true);
-        File.AppendAllText(filePath, contents: inputs_str);
-    }
-
-    public void AppendFighterData(Fighter fighter)
-    {
-        FighterRecordData fighterData = new FighterRecordData(fighter);
-
-        string filePath = getFilePath();
-        string txt = JsonUtility.ToJson(fighterData, true);
-        File.AppendAllText(filePath, contents: txt);
     }
 
     public void DumpFighterData()
@@ -87,9 +64,11 @@ public class FileSystem : MonoBehaviour
 
     public void AppendMatchEndData(BattleCore battleCore)
     {
+        DumpFighterData();
+
         MatchEndData matchEndData = new MatchEndData(battleCore);
 
-        string filePath = Application.persistentDataPath + fileNameTime + FILENAME_END;
+        string filePath = getFilePath();
         string txt = JsonUtility.ToJson(matchEndData, true);
         File.AppendAllText(filePath, contents: txt);
     }
@@ -111,21 +90,15 @@ public class FileSystem : MonoBehaviour
 [Serializable]
 public class FighterRecordData
 {
-    public bool isPlayerOne;
-    public float positionX;
-    public int currentActionID;
+    public bool isP1;
+    public float posX;
+    public int action;
 
     public FighterRecordData(Fighter fighter)
     {
-        isPlayerOne = fighter.isFaceRight;
-        positionX = fighter.position.x;
-        currentActionID = fighter.currentActionID;
-    }
-    public void setFighterData(Fighter fighter)
-    {
-        isPlayerOne = fighter.isFaceRight;
-        positionX = fighter.position.x;
-        currentActionID = fighter.currentActionID;
+        isP1 = fighter.isFaceRight;
+        posX = fighter.position.x;
+        action = fighter.currentActionID;
     }
 }
 
@@ -147,13 +120,12 @@ public class MatchStartData
 [Serializable]
 public class MatchEndData
 {
-    bool isPlayerOneWinner;
-    int playerOneWinCount;
-    int playerTwoWinCount;
+    public int p1Wins;
+    public int p2Wins;
     public MatchEndData(BattleCore battleCore)
     {
-        playerOneWinCount = (int)battleCore.fighter1RoundWon;
-        playerTwoWinCount = (int)battleCore.fighter2RoundWon;
+        p1Wins = (int)battleCore.fighter1RoundWon;
+        p2Wins = (int)battleCore.fighter2RoundWon;
     }
 
 }

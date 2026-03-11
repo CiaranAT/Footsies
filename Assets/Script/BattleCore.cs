@@ -102,7 +102,7 @@ namespace Footsies
                 roundUIAnimator = roundUI.GetComponent<Animator>();
             }
 
-            FileSystem.Instance.SaveNewReplayFile();
+            FileSystem.Instance.StartNewMatchDataFile();
         }
         
         void FixedUpdate()
@@ -183,7 +183,7 @@ namespace Footsies
                     if(fighter1RoundWon >= maxRoundWon
                         || fighter2RoundWon >= maxRoundWon)
                     {
-                        FileSystem.Instance.AppendMatchEndData(this);
+                        FileSystem.Instance.SaveMatchDataFile(this);
                         GameManager.Instance.LoadTitleScene();
                     }
 
@@ -313,7 +313,7 @@ namespace Footsies
             UpdatePushCharacterVsBackground();
             UpdateHitboxHurtboxCollision();
 
-            FileSystem.Instance.StoreFighterData(this);
+            FileSystem.Instance.StoreFighterData(fighter1, fighter2);
         }
 
         void UpdateKOState()

@@ -36,75 +36,46 @@ public class FileSystem : MonoBehaviour
         return Application.persistentDataPath + FILENAME_START + fileNameTime + FILENAME_END;
     }
 
-    public void SaveNewReplayFile()
+    public void StartNewMatchDataFile()
     {
-        matchSaveData.fighterDataList.Clear();
+        matchSaveData.clearData();
 
         time = DateTime.Now;
 
         fileNameTime = time.Day.ToString() + "-" + time.Month.ToString() + "-" + time.Year.ToString()
             + "-" + time.Hour.ToString() + "-" + time.Minute.ToString() + "-" + time.Second.ToString();
 
-        MatchStartData matchStartData = new MatchStartData(fileNameTime);
-
-        string filePath = getFilePath();
-        string txt = JsonUtility.ToJson(matchStartData, true);
-        File.WriteAllText(filePath, contents: txt);
+        matchSaveData.matchStartData = new MatchStartData(fileNameTime);
     }
 
-    public void DumpFighterData()
+    public void SaveMatchDataFile(BattleCore battleCore)
     {
+        matchSaveData.matchEndData = new MatchEndData((int)battleCore.fighter1RoundWon, (int)battleCore.fighter2RoundWon);
+
         string filePath = getFilePath();
         string txt = JsonUtility.ToJson(matchSaveData, true);
-        File.AppendAllText(filePath, contents: txt);
+        File.WriteAllText(filePath, contents: txt);
 
-        matchSaveData.fighterDataList.Clear();
+        matchSaveData.clearData();
     }
-
-    public void AppendMatchEndData(BattleCore battleCore)
+    public void StoreFighterData(Fighter fighter1, Fighter fighter2)
     {
-        DumpFighterData();
+        FighterRecordData fighter1Data = new FighterRecordData(fighter1);
+        FighterRecordData fighter2Data = new FighterRecordData(fighter2);
 
-        MatchEndData matchEndData = new MatchEndData(battleCore);
-
-        string filePath = getFilePath();
-        string txt = JsonUtility.ToJson(matchEndData, true);
-        File.AppendAllText(filePath, contents: txt);
+        matchSaveData.fighter1DataList.Add(fighter1Data);
+        matchSaveData.fighter2DataList.Add(fighter2Data);
     }
-    public void StoreFighterData(BattleCore battleCore)
-    {
-        FighterRecordData fighter1Data = new FighterRecordData(battleCore.fighter1);
-        FighterRecordData fighter2Data = new FighterRecordData(battleCore.fighter2);
-
-        matchSaveData.fighterDataList.Add(fighter1Data);
-        matchSaveData.fighterDataList.Add(fighter2Data);
-    }
-}
-
-[Serializable]
-public struct MatchSetupData
-{
-    public bool isVsCPU;
-    public bool isCPUVsCPU;
-    public string matchStartTime;
-}
-[Serializable]
-public struct MatchResultData
-{
-    public int p1Wins;
-    public int p2Wins;
 }
 
 [Serializable]
 public class FighterRecordData
 {
-    public bool isP1;
     public float posX;
     public int action;
 
     public FighterRecordData(Fighter fighter)
     {
-        isP1 = fighter.isFaceRight;
         posX = fighter.position.x;
         action = fighter.currentActionID;
     }
@@ -113,23 +84,26 @@ public class FighterRecordData
 [Serializable]
 public class MatchStartData
 {
-    public MatchSetupData setupData;
+    public bool isP2CPU;
+    public bool isP1CPU;
+    public string matchStartTime;
 
     public MatchStartData(string startTime) {
-        setupData.isVsCPU = GameManager.Instance.isVsCPU;
-        setupData.isCPUVsCPU = GameManager.Instance.isCPUVsCPU;
-        setupData.matchStartTime = startTime;
+        isP2CPU = GameManager.Instance.isVsCPU;
+        isP1CPU = GameManager.Instance.isCPUVsCPU;
+        matchStartTime = startTime;
     }
 }
 
 [Serializable]
 public class MatchEndData
 {
-    public MatchResultData resultData;
-    public MatchEndData(BattleCore battleCore)
+    public int p1Wins;
+    public int p2Wins;
+    public MatchEndData(int p1_wins, int p2_wins)
     {
-        resultData.p1Wins = (int)battleCore.fighter1RoundWon;
-        resultData.p2Wins = (int)battleCore.fighter2RoundWon;
+        p1Wins = p1_wins;
+        p2Wins = p2_wins;
     }
 
 }
@@ -137,6 +111,17 @@ public class MatchEndData
 [Serializable]
 public class MatchSaveData
 {
-    public List<FighterRecordData> fighterDataList;
+    public MatchStartData matchStartData;
+    public List<FighterRecordData> fighter1DataList;
+    public List<FighterRecordData> fighter2DataList;
+    public MatchEndData matchEndData;
+
+    public void clearData()
+    {
+        matchStartData = null;
+        fighter1DataList.Clear();
+        fighter2DataList.Clear();
+        matchEndData = null;
+    }
 }
 

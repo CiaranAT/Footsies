@@ -30,7 +30,6 @@ public class FileSystem : MonoBehaviour
     public DateTime time;
 
     public MatchSaveData matchSaveData;
-    int MAX_FIGHTER_DATA_LIST_SIZE = 20;
 
     string getFilePath()
     {
@@ -79,11 +78,6 @@ public class FileSystem : MonoBehaviour
 
         matchSaveData.fighterDataList.Add(fighter1Data);
         matchSaveData.fighterDataList.Add(fighter2Data);
-
-        if(matchSaveData.fighterDataList.Count >= MAX_FIGHTER_DATA_LIST_SIZE)
-        {
-            DumpFighterData();
-        }
     }
 }
 

@@ -14,11 +14,21 @@ namespace Footsies
             Battle = 2,
         }
 
+        public enum GameMode
+        {
+            Tutorial = 0,
+            PvsP = 1,
+            VsILCPU = 2,
+            VsBaseCPU = 3,
+            ILCPUVsILCPU = 4,
+        }
+
         public AudioClip menuSelectAudioClip;
 
         public SceneIndex currentScene { get; private set; }
-        public bool isVsCPU { get; private set; }
-        public bool isCPUVsCPU { get; private set; }
+        public GameMode gameMode { get; private set; }
+        public bool isFilewriteEnabled { get; private set; }
+        public bool isInfiniteMatchEnabled { get; private set; }
 
         private void Awake()
         {
@@ -30,7 +40,8 @@ namespace Footsies
         private void Start()
         {
             LoadTitleScene();
-
+            isFilewriteEnabled = false;
+            isInfiniteMatchEnabled = false;
         }
 
         private void Update()
@@ -52,23 +63,19 @@ namespace Footsies
 
         public void LoadVsPlayerScene()
         {
-            isVsCPU = false;
-            isCPUVsCPU = false;
+            gameMode = GameMode.PvsP;
             LoadBattleScene();
         }
 
         public void LoadVsCPUScene()
         {
-            isVsCPU = true;
-            isCPUVsCPU = false;
+            gameMode = GameMode.VsILCPU;
             LoadBattleScene();
         }
 
         public void LoadCPUVsCPUScene()
         {
-            Debug.Log("Load CPUVsCPU scene called");
-            isVsCPU = true;
-            isCPUVsCPU = true;
+            gameMode = GameMode.ILCPUVsILCPU;
             LoadBattleScene();
         }
 

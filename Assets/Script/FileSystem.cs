@@ -84,13 +84,11 @@ public class FighterRecordData
 [Serializable]
 public class MatchStartData
 {
-    public bool isP2CPU;
-    public bool isP1CPU;
+    public int gameModeID;
     public string matchStartTime;
 
     public MatchStartData(string startTime) {
-        isP2CPU = GameManager.Instance.isVsCPU;
-        isP1CPU = GameManager.Instance.isCPUVsCPU;
+        gameModeID = (int)GameManager.Instance.gameMode;
         matchStartTime = startTime;
     }
 }

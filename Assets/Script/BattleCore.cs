@@ -63,7 +63,7 @@ namespace Footsies
 
         private Animator roundUIAnimator;
 
-        //private BattleAI battleAI = null;
+        private BattleAI battleAI = null;
 
         private PlayingAgent playingAgent = null;
         private PlayingAgent trainingOpponentAgent = null; //playing agent that replaces player 1 in CPUVsCPU gamemode 
@@ -197,18 +197,19 @@ namespace Footsies
 
                     roundUIAnimator.SetTrigger("RoundStart");
 
-                    if (GameManager.Instance.isVsCPU)
+                    switch (GameManager.Instance.gameMode)
                     {
-                       //battleAI = new BattleAI(this);
-                       //playingAgent = new PlayingAgent(this);
-                       playingAgent = GameObject.Find("PlayingAgent").GetComponent<PlayingAgent>();
-                       playingAgent.Initialize(this, true);
+                        case GameManager.GameMode.VsILCPU:
+                            initialisePlayingAgent();
+                            break;
+                        case GameManager.GameMode.VsBaseCPU:
+                            initialiseBaseBattleAI();
+                            break;
+                        case GameManager.GameMode.ILCPUVsILCPU:
+                            initialisePlayingAgent();
+                            initialiseTrainingOpponentAgent();
+                            break;
 
-                        if (GameManager.Instance.isCPUVsCPU)
-                        {
-                            trainingOpponentAgent = GameObject.Find("TrainingOpponentAgent").GetComponent<PlayingAgent>();
-                            trainingOpponentAgent.Initialize(this, false);
-                        }
                     }
 
                     break;
@@ -247,7 +248,7 @@ namespace Footsies
                     {
                         if (deadFighter[0] == fighter1)
                         {
-                            if (!GameManager.Instance.isCPUVsCPU)
+                            if (GameManager.Instance.gameMode != GameManager.GameMode.ILCPUVsILCPU)
                             {
                                 fighter2RoundWon++;
                                 fighter2.RequestWinAction();
@@ -260,7 +261,7 @@ namespace Footsies
                         }
                         else if (deadFighter[0] == fighter2)
                         {
-                            if (!GameManager.Instance.isCPUVsCPU)
+                            if (GameManager.Instance.gameMode != GameManager.GameMode.ILCPUVsILCPU)
                             {
                                 fighter1RoundWon++;
                                 fighter1.RequestWinAction();
@@ -376,11 +377,10 @@ namespace Footsies
 
             InputData p2Input = new InputData();
 
-            //if (battleAI != null)
-            //{
-            //    p2Input.input |= battleAI.getNextAIInput();
-
-            //}
+            if (battleAI != null)
+            {
+                p2Input.input |= battleAI.getNextAIInput();
+            }
             if (playingAgent != null)
             {
                 p2Input.input |= playingAgent.getNextAIInput();
@@ -601,6 +601,22 @@ namespace Footsies
         {
             fighter1.SetupBattleStart(fighterDataList[0], new Vector2(-2f, 0f), true);
             fighter2.SetupBattleStart(fighterDataList[0], new Vector2(2f, 0f), false);
+        }
+
+        private void initialisePlayingAgent()
+        {
+            playingAgent = GameObject.Find("PlayingAgent").GetComponent<PlayingAgent>();
+            playingAgent.Initialize(this, true);
+        }
+
+        private void initialiseTrainingOpponentAgent()
+        {
+            trainingOpponentAgent = GameObject.Find("TrainingOpponentAgent").GetComponent<PlayingAgent>();
+            trainingOpponentAgent.Initialize(this, false);
+        }
+        private void initialiseBaseBattleAI()
+        {
+            battleAI = new BattleAI(this);
         }
     }
 

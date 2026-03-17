@@ -128,7 +128,12 @@ namespace Footsies
                 SoundManager.Instance.playSE(menuSelectAudioClip);
             }
         }
-      
+
+        public bool checkCanFilewrite()
+        {
+            //don't write to files or store data if match is looping to avoid memory issues, or during the tutorial as it isn't a real match
+            return isFilewriteEnabled && gameMode != GameMode.Tutorial && !isInfiniteMatchEnabled;
+        }
     }
 
 }

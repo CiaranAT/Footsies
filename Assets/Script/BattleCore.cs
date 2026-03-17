@@ -244,16 +244,14 @@ namespace Footsies
                         //draw, no points
                     }
                     //don't add win count if in CPU VS CPU, so that ml-agents solo training can loop forever
-                    else if (deadFighter.Count == 1)
+                    else if (deadFighter.Count == 1 && !GameManager.Instance.isInfiniteMatchEnabled)
                     {
                         if (deadFighter[0] == fighter1)
                         {
-                            if (GameManager.Instance.gameMode != GameManager.GameMode.ILCPUVsILCPU)
-                            {
-                                fighter2RoundWon++;
-                                fighter2.RequestWinAction();
-                            }
-                            else
+                            fighter2RoundWon++;
+                            fighter2.RequestWinAction();
+
+                            if (GameManager.Instance.gameMode == GameManager.GameMode.ILCPUVsILCPU)
                             {
                                 trainingOpponentAgent.giveRoundOverReward(false);
                                 playingAgent.giveRoundOverReward(true);
@@ -261,12 +259,10 @@ namespace Footsies
                         }
                         else if (deadFighter[0] == fighter2)
                         {
-                            if (GameManager.Instance.gameMode != GameManager.GameMode.ILCPUVsILCPU)
-                            {
-                                fighter1RoundWon++;
-                                fighter1.RequestWinAction();
-                            }
-                            else
+                            fighter1RoundWon++;
+                            fighter1.RequestWinAction();
+
+                            if (GameManager.Instance.gameMode == GameManager.GameMode.ILCPUVsILCPU)
                             {
                                 trainingOpponentAgent.giveRoundOverReward(true);
                                 playingAgent.giveRoundOverReward(false);

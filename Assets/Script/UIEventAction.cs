@@ -15,6 +15,7 @@ namespace Footsies
             ExitGame,
             BGMToggle,
             SEToggle,
+            SettingsMenuToggle,
             LoadCPUVsCPU
         }
 
@@ -48,11 +49,15 @@ namespace Footsies
                 case Action.BGMToggle:
                     toggleBGM();
                     break;
+                case Action.SettingsMenuToggle:
+                    toggleSettingsMenu();
+                    break;
                 case Action.SEToggle:
                     break;
                 case Action.LoadCPUVsCPU:
                     LoadCPUVsCPU();
                     break;
+                
             }
         }
 
@@ -84,6 +89,11 @@ namespace Footsies
             {
                 toggle.isOn = isOn;
             }
+        }
+
+        public void toggleSettingsMenu()
+        {
+            GameManager.Instance.toggleSettingsMenu();
         }
         
         public void OnPointerEnter(PointerEventData eventData)

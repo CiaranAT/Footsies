@@ -79,6 +79,11 @@ namespace Footsies
             LoadBattleScene();
         }
 
+        public void toggleSettingsMenu()
+        {
+
+        }
+
         private void LoadBattleScene()
         {
             SceneManager.LoadScene((int)SceneIndex.Battle);
@@ -89,6 +94,7 @@ namespace Footsies
                 SoundManager.Instance.playSE(menuSelectAudioClip);
             }
         }
+      
     }
 
 }

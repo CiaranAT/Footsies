@@ -79,9 +79,15 @@ namespace Footsies
             LoadBattleScene();
         }
 
-        public void toggleSettingsMenu()
+        public void toggleSettingsMenu() 
         {
+            Transform settingsMenu = GameObject.Find("TitleCanvas").transform.Find("SettingsMenuScreen");
 
+            if (settingsMenu.gameObject.active)
+            {
+                settingsMenu.gameObject.SetActive(false);
+            }
+            else settingsMenu.gameObject.SetActive(true);
         }
 
         private void LoadBattleScene()

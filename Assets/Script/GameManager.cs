@@ -40,7 +40,7 @@ namespace Footsies
         private void Start()
         {
             LoadTitleScene();
-            isFilewriteEnabled = false;
+            isFilewriteEnabled = true;
             isInfiniteMatchEnabled = false;
         }
 
@@ -88,6 +88,34 @@ namespace Footsies
                 settingsMenu.gameObject.SetActive(false);
             }
             else settingsMenu.gameObject.SetActive(true);
+        }
+
+        public bool toggleFilewrite()
+        {
+            if (isFilewriteEnabled)
+            {
+                isFilewriteEnabled = false;
+            }
+            else
+            {
+                isFilewriteEnabled = true;
+            }
+
+            return isFilewriteEnabled;
+        }
+
+        public bool toggleMatchLooping()
+        {
+            if (isInfiniteMatchEnabled)
+            {
+                isInfiniteMatchEnabled = false;
+            }
+            else
+            {
+                isInfiniteMatchEnabled = true;
+            }
+
+            return isInfiniteMatchEnabled;
         }
 
         private void LoadBattleScene()

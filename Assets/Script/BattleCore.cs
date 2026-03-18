@@ -119,8 +119,7 @@ namespace Footsies
                     UpdateIntroState();
 
                     timer -= Time.deltaTime;
-                    if (timer <= 0f
-                        || GameManager.Instance.isInfiniteMatchEnabled)
+                    if (timer <= 0f)
                     {
                         ChangeRoundState(RoundStateType.Fight);
                     }
@@ -154,8 +153,7 @@ namespace Footsies
 
                     UpdateKOState();
                     timer -= Time.deltaTime;
-                    if (timer <= 0f
-                        || GameManager.Instance.isInfiniteMatchEnabled)
+                    if (timer <= 0f)
                     {
                         ChangeRoundState(RoundStateType.End);
                     }
@@ -166,8 +164,7 @@ namespace Footsies
                     UpdateEndState();
                     timer -= Time.deltaTime;
                     if (timer <= 0f
-                        || (timer <= endStateSkippableTime && IsKOSkipButtonPressed())
-                        || GameManager.Instance.isInfiniteMatchEnabled)
+                        || (timer <= endStateSkippableTime && IsKOSkipButtonPressed()))
                     {
                         ChangeRoundState(RoundStateType.Stop);
                     }
@@ -202,15 +199,18 @@ namespace Footsies
 
                     switch (GameManager.Instance.gameMode)
                     {
-                        case GameManager.GameMode.VsILCPU:
+                        case GameManager.GameMode.VsAgent:
                             initialisePlayingAgent();
                             break;
                         case GameManager.GameMode.VsBaseCPU:
                             initialiseBaseBattleAI();
                             break;
-                        case GameManager.GameMode.ILCPUVsILCPU:
+                        case GameManager.GameMode.AgentVsAgent:
                             initialisePlayingAgent();
                             initialiseTrainingOpponentAgent();
+                            break;
+                        case GameManager.GameMode.Tutorial:
+                            initialiseTutorialAI();
                             break;
 
                     }
@@ -256,7 +256,7 @@ namespace Footsies
                                 fighter2RoundWon++;
                                 fighter2.RequestWinAction();
                             }
-                            if (GameManager.Instance.gameMode == GameManager.GameMode.ILCPUVsILCPU)
+                            if (GameManager.Instance.gameMode == GameManager.GameMode.AgentVsAgent)
                             {
                                 trainingOpponentAgent.giveRoundOverReward(false);
                                 playingAgent.giveRoundOverReward(true);
@@ -269,7 +269,7 @@ namespace Footsies
                                 fighter1RoundWon++;
                                 fighter1.RequestWinAction();
                             }
-                            if (GameManager.Instance.gameMode == GameManager.GameMode.ILCPUVsILCPU)
+                            if (GameManager.Instance.gameMode == GameManager.GameMode.AgentVsAgent)
                             {
                                 trainingOpponentAgent.giveRoundOverReward(true);
                                 playingAgent.giveRoundOverReward(false);
@@ -620,6 +620,12 @@ namespace Footsies
         private void initialiseBaseBattleAI()
         {
             battleAI = new BattleAI(this);
+        }
+
+        private void initialiseTutorialAI()
+        {
+            battleAI = new BattleAI(this);
+            battleAI.enableTutorialMode();
         }
     }
 

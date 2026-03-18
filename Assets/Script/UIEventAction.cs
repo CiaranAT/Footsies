@@ -10,13 +10,15 @@ namespace Footsies
     {
         public enum Action
         {
-            LoadVsCPU,
+            LoadVsAgent,
             LoadVsPlayer,
+            LoadVsBaseCPU,
+            LoadTutorial,
             ExitGame,
             BGMToggle,
             SEToggle,
             SettingsMenuToggle,
-            LoadCPUVsCPU,
+            LoadAGNTVsAGNT,
             FileToggle,
             LoopToggle
         }
@@ -58,8 +60,8 @@ namespace Footsies
         {
             switch(action)
             {
-                case Action.LoadVsCPU:
-                    LoadVsCPU();
+                case Action.LoadVsAgent:
+                    LoadVsAgent();
                     break;
                 case Action.LoadVsPlayer:
                     LoadVsPlayer();
@@ -75,8 +77,8 @@ namespace Footsies
                     break;
                 case Action.SEToggle:
                     break;
-                case Action.LoadCPUVsCPU:
-                    LoadCPUVsCPU();
+                case Action.LoadAGNTVsAGNT:
+                    LoadAgentVsAgent();
                     break;
                 case Action.LoopToggle:
                     toggleMatchLooping();
@@ -84,12 +86,18 @@ namespace Footsies
                 case Action.FileToggle:
                     toggleFilewrite();
                     break;
+                case Action.LoadVsBaseCPU:
+                    LoadVsBaseCPU();
+                    break;
+                case Action.LoadTutorial:
+                    LoadTutorial();
+                    break;
             }
         }
 
-        public void LoadVsCPU()
+        public void LoadVsAgent()
         {
-            GameManager.Instance.LoadVsCPUScene();
+            GameManager.Instance.LoadVsAgentScene();
         }
 
         public void LoadVsPlayer()
@@ -102,9 +110,19 @@ namespace Footsies
             Application.Quit();
         }
 
-        public void LoadCPUVsCPU()
+        public void LoadAgentVsAgent()
         {
-            GameManager.Instance.LoadCPUVsCPUScene();
+            GameManager.Instance.LoadAgentVsAgentScene();
+        }
+
+        public void LoadVsBaseCPU()
+        {
+            GameManager.Instance.LoadVsBaseCPU();
+        }
+
+        public void LoadTutorial()
+        {
+            GameManager.Instance.LoadTutorial();
         }
 
         public void toggleBGM()

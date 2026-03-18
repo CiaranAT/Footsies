@@ -22,6 +22,8 @@ namespace Footsies
         }
 
         private BattleCore battleCore;
+        private bool isTutorialMode = false;
+        private int tutorialStage = 0;
 
         private Queue<int> moveQueue = new Queue<int>();
         private Queue<int> attackQueue = new Queue<int>();
@@ -34,6 +36,11 @@ namespace Footsies
         public BattleAI(BattleCore core)
         {
             battleCore = core;
+        }
+
+        public void enableTutorialMode()
+        {
+            isTutorialMode = true;
         }
 
         public int getNextAIInput()
@@ -49,14 +56,24 @@ namespace Footsies
                     input |= moveQueue.Dequeue();
                 else if (moveQueue.Count == 0)
                 {
-                    SelectMovement(fightState);
+                    if (!isTutorialMode)
+                    {
+                        SelectMovement(fightState);
+                    }
+                    else
+                    {
+                        AddOneHitImmediateAttack();
+                    }
                 }
 
                 if (attackQueue.Count > 0)
                     input |= attackQueue.Dequeue();
                 else if (attackQueue.Count == 0)
                 {
-                    SelectAttack(fightState);
+                    if (!isTutorialMode)
+                    {
+                        SelectAttack(fightState);
+                    }
                 }
             }
 

@@ -18,9 +18,9 @@ namespace Footsies
         {
             Tutorial = 0,
             PvsP = 1,
-            VsILCPU = 2,
+            VsAgent = 2,
             VsBaseCPU = 3,
-            ILCPUVsILCPU = 4,
+            AgentVsAgent = 4,
         }
 
         public AudioClip menuSelectAudioClip;
@@ -43,7 +43,7 @@ namespace Footsies
             isFilewriteEnabled = true;
             isInfiniteMatchEnabled = false;
 
-            loadTrainingEnv(); //used for training build, remove when building for release
+            //loadTrainingEnv(); //used for training build, remove when building for release
         }
 
         private void Update()
@@ -69,15 +69,27 @@ namespace Footsies
             LoadBattleScene();
         }
 
-        public void LoadVsCPUScene()
+        public void LoadVsAgentScene()
         {
-            gameMode = GameMode.VsILCPU;
+            gameMode = GameMode.VsAgent;
             LoadBattleScene();
         }
 
-        public void LoadCPUVsCPUScene()
+        public void LoadAgentVsAgentScene()
         {
-            gameMode = GameMode.ILCPUVsILCPU;
+            gameMode = GameMode.AgentVsAgent;
+            LoadBattleScene();
+        }
+
+        public void LoadVsBaseCPU()
+        {
+            gameMode = GameMode.VsBaseCPU;
+            LoadBattleScene();
+        }
+
+        public void LoadTutorial()
+        {
+            gameMode = GameMode.Tutorial;
             LoadBattleScene();
         }
 
@@ -141,7 +153,7 @@ namespace Footsies
         {
             isFilewriteEnabled = false;
             isInfiniteMatchEnabled = true;
-            LoadCPUVsCPUScene();
+            LoadAgentVsAgentScene();
         }
     }
 

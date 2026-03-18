@@ -1,0 +1,66 @@
+{
+    "FootsiesAgent": {
+        "elo": 1241.8258079480427,
+        "checkpoints": [
+            {
+                "steps": 250016,
+                "file_path": "results\\FinalBehaviourV2\\FootsiesAgent\\FootsiesAgent-250016.onnx",
+                "reward": -11.24226423535707,
+                "creation_time": 1773841786.556039,
+                "auxillary_file_paths": [
+                    "results\\FinalBehaviourV2\\FootsiesAgent\\FootsiesAgent-250016.pt"
+                ]
+            },
+            {
+                "steps": 250016,
+                "file_path": "results\\FinalBehaviourV2\\FootsiesAgent\\FootsiesAgent-250016.onnx",
+                "reward": null,
+                "creation_time": 1773841845.7665238,
+                "auxillary_file_paths": [
+                    "results\\FinalBehaviourV2\\FootsiesAgent\\FootsiesAgent-250016.pt"
+                ]
+            },
+            {
+                "steps": 499984,
+                "file_path": "results\\FinalBehaviourV2\\FootsiesAgent\\FootsiesAgent-499984.onnx",
+                "reward": -10.865365912274617,
+                "creation_time": 1773844214.5975754,
+                "auxillary_file_paths": [
+                    "results\\FinalBehaviourV2\\FootsiesAgent\\FootsiesAgent-499984.pt"
+                ]
+            },
+            {
+                "steps": 500012,
+                "file_path": "results\\FinalBehaviourV2\\FootsiesAgent\\FootsiesAgent-500012.onnx",
+                "reward": -11.119047687167214,
+                "creation_time": 1773844214.6880696,
+                "auxillary_file_paths": [
+                    "results\\FinalBehaviourV2\\FootsiesAgent\\FootsiesAgent-500012.pt"
+                ]
+            },
+            {
+                "steps": 750025,
+                "file_path": "results\\FinalBehaviourV2\\FootsiesAgent\\FootsiesAgent-750025.onnx",
+                "reward": -12.783599909543991,
+                "creation_time": 1773846866.0133114,
+                "auxillary_file_paths": [
+                    "results\\FinalBehaviourV2\\FootsiesAgent\\FootsiesAgent-750025.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 750025,
+            "file_path": "results\\FinalBehaviourV2\\FootsiesAgent.onnx",
+            "reward": -12.783599909543991,
+            "creation_time": 1773846866.0133114,
+            "auxillary_file_paths": [
+                "results\\FinalBehaviourV2\\FootsiesAgent\\FootsiesAgent-750025.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.2.0.dev0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

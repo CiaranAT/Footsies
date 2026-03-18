@@ -42,6 +42,8 @@ namespace Footsies
             LoadTitleScene();
             isFilewriteEnabled = true;
             isInfiniteMatchEnabled = false;
+
+            loadTrainingEnv(); //used for training build, remove when building for release
         }
 
         private void Update()
@@ -133,6 +135,13 @@ namespace Footsies
         {
             //don't write to files or store data if match is looping to avoid memory issues, or during the tutorial as it isn't a real match
             return isFilewriteEnabled && gameMode != GameMode.Tutorial && !isInfiniteMatchEnabled;
+        }
+
+        private void loadTrainingEnv()
+        {
+            isFilewriteEnabled = false;
+            isInfiniteMatchEnabled = true;
+            LoadCPUVsCPUScene();
         }
     }
 

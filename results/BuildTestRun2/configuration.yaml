@@ -73,11 +73,10 @@ behaviors:
       num_epoch: null
       batch_size: null
 env_settings:
-  env_path: "\u201DC:\\Users\\Ciaran\\Documents\\GitHub\\Footsies\\Builds\\FirstBuild\\\
-    FOOTSIES\u201D"
+  env_path: C:\Users\Ciaran\Documents\GitHub\Footsies\Builds\FirstBuild\FOOTSIES
   env_args: null
   base_port: 5005
-  num_envs: 1
+  num_envs: 2
   num_areas: 1
   timeout_wait: 60
   seed: -1
@@ -95,7 +94,7 @@ engine_settings:
   no_graphics_monitor: false
 environment_parameters: null
 checkpoint_settings:
-  run_id: ''
+  run_id: BuildTestRun2
   initialize_from: null
   load_model: false
   resume: false

@@ -6,6 +6,7 @@
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 /[Vv]env
+/[Bb]uilds
 
 # temporary files
 EditorUserSettings.asset

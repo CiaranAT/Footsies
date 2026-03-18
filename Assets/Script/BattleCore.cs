@@ -247,13 +247,15 @@ namespace Footsies
                         //draw, no points
                     }
                     //don't add win count if in CPU VS CPU, so that ml-agents solo training can loop forever
-                    else if (deadFighter.Count == 1 && !GameManager.Instance.isInfiniteMatchEnabled)
+                    else if (deadFighter.Count == 1)
                     {
                         if (deadFighter[0] == fighter1)
                         {
-                            fighter2RoundWon++;
-                            fighter2.RequestWinAction();
-
+                            if (!GameManager.Instance.isInfiniteMatchEnabled)
+                            {
+                                fighter2RoundWon++;
+                                fighter2.RequestWinAction();
+                            }
                             if (GameManager.Instance.gameMode == GameManager.GameMode.ILCPUVsILCPU)
                             {
                                 trainingOpponentAgent.giveRoundOverReward(false);
@@ -262,9 +264,11 @@ namespace Footsies
                         }
                         else if (deadFighter[0] == fighter2)
                         {
-                            fighter1RoundWon++;
-                            fighter1.RequestWinAction();
-
+                            if (!GameManager.Instance.isInfiniteMatchEnabled)
+                            {
+                                fighter1RoundWon++;
+                                fighter1.RequestWinAction();
+                            }
                             if (GameManager.Instance.gameMode == GameManager.GameMode.ILCPUVsILCPU)
                             {
                                 trainingOpponentAgent.giveRoundOverReward(true);

@@ -1,24 +1,33 @@
 {
     "FootsiesAgent": {
-        "elo": 1200.0,
         "checkpoints": [
             {
-                "steps": 6912,
-                "file_path": "results\\TrainingEnvTest\\FootsiesAgent\\FootsiesAgent-6912.onnx",
+                "steps": 499968,
+                "file_path": "results\\TrainingEnvTest\\FootsiesAgent\\FootsiesAgent-499968.onnx",
                 "reward": null,
-                "creation_time": 1773826749.5344234,
+                "creation_time": 1773837626.5828424,
                 "auxillary_file_paths": [
-                    "results\\TrainingEnvTest\\FootsiesAgent\\FootsiesAgent-6912.pt"
+                    "results\\TrainingEnvTest\\FootsiesAgent\\FootsiesAgent-499968.pt"
+                ]
+            },
+            {
+                "steps": 500032,
+                "file_path": "results\\TrainingEnvTest\\FootsiesAgent\\FootsiesAgent-500032.onnx",
+                "reward": null,
+                "creation_time": 1773837626.6488805,
+                "auxillary_file_paths": [
+                    "results\\TrainingEnvTest\\FootsiesAgent\\FootsiesAgent-500032.pt"
                 ]
             }
         ],
+        "elo": 1200.0,
         "final_checkpoint": {
-            "steps": 6912,
+            "steps": 500032,
             "file_path": "results\\TrainingEnvTest\\FootsiesAgent.onnx",
             "reward": null,
-            "creation_time": 1773826749.5344234,
+            "creation_time": 1773837626.6488805,
             "auxillary_file_paths": [
-                "results\\TrainingEnvTest\\FootsiesAgent\\FootsiesAgent-6912.pt"
+                "results\\TrainingEnvTest\\FootsiesAgent\\FootsiesAgent-500032.pt"
             ]
         }
     },

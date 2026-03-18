@@ -386,7 +386,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 50000
+  MaxStep: 0
 --- !u!4 &1888859159
 Transform:
   m_ObjectHideFlags: 0
@@ -489,7 +489,7 @@ PrefabInstance:
     - target: {fileID: 9001632365083702129, guid: 6556e3cbb4f455743a22ed6876105424,
         type: 3}
       propertyPath: MaxStep
-      value: 50000
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -439,12 +439,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 311154582}
   m_CullTransparentMesh: 1
---- !u!1 &749302605 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1680832827664012, guid: ac8378dd394a0af4b946774d38e9710a,
-    type: 3}
-  m_PrefabInstance: {fileID: 199929777}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1261976677
 GameObject:
   m_ObjectHideFlags: 0
@@ -639,7 +633,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _battleAreaWidth: 10
   _battleAreaMaxHeight: 2
-  roundUI: {fileID: 749302605}
+  roundUI: {fileID: 1795167016}
   tutorialPanel: {fileID: 1795167016}
   tutorialText:
   - {fileID: 311154582}

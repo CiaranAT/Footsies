@@ -156,7 +156,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 350, y: -489.95886}
+  m_AnchoredPosition: {x: 350, y: -489.67816}
   m_SizeDelta: {x: 600, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8574479
@@ -265,7 +265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 965cb0393c36c7049b2908e08cf077cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Footsies.UIEventAction
-  action: 5
+  action: 7
 --- !u!1 &91940801
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,11 +429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
-  m_Delegates:
-  - eventID: 15
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
+  m_Delegates: []
 --- !u!1 &114179804
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,7 +543,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 425, y: -234.98628}
+  m_AnchoredPosition: {x: 425, y: -234.89272}
   m_SizeDelta: {x: 750, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &125821632
@@ -655,7 +651,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 965cb0393c36c7049b2908e08cf077cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Footsies.UIEventAction
-  action: 7
+  action: 9
 --- !u!1 &133442046
 GameObject:
   m_ObjectHideFlags: 0
@@ -1819,7 +1815,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 425, y: -354.97256}
+  m_AnchoredPosition: {x: 425, y: -354.78543}
   m_SizeDelta: {x: 750, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &848098669
@@ -1927,7 +1923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 965cb0393c36c7049b2908e08cf077cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Footsies.UIEventAction
-  action: 8
+  action: 10
 --- !u!1 &894542478
 GameObject:
   m_ObjectHideFlags: 0

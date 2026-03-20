@@ -89,6 +89,7 @@ namespace Footsies
         public bool isDebugPause { get; private set; }
 
         private float introStateTime = 3f;
+        private float tutorialIntroStateTime = 10f;
         private float koStateTime = 2f;
         private float endStateTime = 3f;
         private float endStateSkippableTime = 1.5f;
@@ -128,7 +129,15 @@ namespace Footsies
                     UpdateIntroState();
 
                     timer -= Time.deltaTime;
-                    if (timer <= 0f )
+                    if (GameManager.Instance.gameMode == GameManager.GameMode.Tutorial)
+                    {
+                        if ( timer <= 0f
+                            || IsKOSkipButtonPressed())
+                        {
+                            ChangeRoundState(RoundStateType.Fight);
+                        }
+                    }
+                    else if (timer <= 0f )
                     {
                         ChangeRoundState(RoundStateType.Fight);
                     }
@@ -203,6 +212,11 @@ namespace Footsies
                     fighter2.SetupBattleStart(fighterDataList[0], new Vector2(2f, 0f), false);
 
                     timer = introStateTime;
+
+                    if(GameManager.Instance.gameMode == GameManager.GameMode.Tutorial)
+                    {
+                        timer = tutorialIntroStateTime;
+                    }
 
                     roundUIAnimator.SetTrigger("RoundStart");
 

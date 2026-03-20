@@ -7,7 +7,7 @@
 /[Uu]ser[Ss]ettings/
 /[Vv]env
 /[Bb]uilds
-results/
+**/run_logs/
 
 # temporary files
 EditorUserSettings.asset

@@ -38,9 +38,10 @@ namespace Footsies
             battleCore = core;
         }
 
-        public void enableTutorialMode()
+        public void enableTutorialMode(int tutorial_stage)
         {
             isTutorialMode = true;
+            tutorialStage = tutorial_stage;
         }
 
         public int getNextAIInput()
@@ -62,7 +63,21 @@ namespace Footsies
                     }
                     else
                     {
-                        AddOneHitImmediateAttack();
+                        switch (tutorialStage)
+                        {
+                            case 0:
+                                AddMidApproach1();
+                                AddMidRetreat();
+                                break;
+                            case 1:
+                                AddNeutralMovement();
+                                break;
+                            case 2:
+                                AddMidApproach1();
+                                AddMidApproach2();
+                                break;
+                        }
+                       
                     }
                 }
 
@@ -73,6 +88,22 @@ namespace Footsies
                     if (!isTutorialMode)
                     {
                         SelectAttack(fightState);
+                    }
+                    else
+                    {
+                        switch (tutorialStage)
+                        {
+                            case 0:
+                                AddNoAttack();
+                                break;
+                            case 1:
+                                AddTwoHitImmediateAttack();
+                                break;
+                            case 2:
+                                AddTwoHitImmediateAttack();
+                                AddNoAttack();
+                                break;
+                        }
                     }
                 }
             }
@@ -250,6 +281,16 @@ namespace Footsies
             AddBackwardInputQueue(30);
 
             Debug.Log("AddMidApproach2");
+        }
+
+        private void AddMidRetreat()
+        {
+            AddBackwardInputQueue(30);
+            AddForwardInputQueue(10);
+            AddBackwardInputQueue(20);
+            AddForwardInputQueue(10);
+
+            Debug.Log("AddMidRetreat");
         }
 
         private void AddFallBack1()

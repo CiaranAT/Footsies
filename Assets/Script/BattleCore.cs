@@ -32,6 +32,12 @@ namespace Footsies
         private GameObject roundUI;
 
         [SerializeField]
+        private GameObject tutorialPanel;
+
+        [SerializeField]
+        private GameObject[] tutorialText;
+
+        [SerializeField]
         private List<FighterData> fighterDataList = new List<FighterData>();
 
         public bool debugP1Attack = false;
@@ -64,6 +70,7 @@ namespace Footsies
         private Animator roundUIAnimator;
 
         private BattleAI battleAI = null;
+        private int tutorialStage = 0;
 
         private PlayingAgent playingAgent = null;
         private PlayingAgent trainingOpponentAgent = null; //playing agent that replaces player 1 in CPUVsCPU gamemode 
@@ -103,6 +110,8 @@ namespace Footsies
             }
 
             FileSystem.Instance.StartNewMatchDataFile();
+
+            tutorialPanel.SetActive(false);
         }
         
         void FixedUpdate()
@@ -119,7 +128,7 @@ namespace Footsies
                     UpdateIntroState();
 
                     timer -= Time.deltaTime;
-                    if (timer <= 0f)
+                    if (timer <= 0f )
                     {
                         ChangeRoundState(RoundStateType.Fight);
                     }
@@ -210,7 +219,7 @@ namespace Footsies
                             initialiseTrainingOpponentAgent();
                             break;
                         case GameManager.GameMode.Tutorial:
-                            initialiseTutorialAI();
+                            initialiseTutorial();
                             break;
 
                     }
@@ -246,12 +255,12 @@ namespace Footsies
                     {
                         //draw, no points
                     }
-                    //don't add win count if in CPU VS CPU, so that ml-agents solo training can loop forever
+                    //don't add win count to CPU in tutorial or to any player if infinite match is enabled
                     else if (deadFighter.Count == 1)
                     {
                         if (deadFighter[0] == fighter1)
                         {
-                            if (!GameManager.Instance.isInfiniteMatchEnabled)
+                            if (!GameManager.Instance.isInfiniteMatchEnabled && GameManager.Instance.gameMode != GameManager.GameMode.Tutorial)
                             {
                                 fighter2RoundWon++;
                                 fighter2.RequestWinAction();
@@ -264,7 +273,14 @@ namespace Footsies
                         }
                         else if (deadFighter[0] == fighter2)
                         {
-                            if (!GameManager.Instance.isInfiniteMatchEnabled)
+                            if (GameManager.Instance.gameMode == GameManager.GameMode.Tutorial)
+                            {
+                                fighter1RoundWon++;
+                                fighter1.RequestWinAction();
+                                tutorialStage++;
+
+                            }
+                            else if (!GameManager.Instance.isInfiniteMatchEnabled)
                             {
                                 fighter1RoundWon++;
                                 fighter1.RequestWinAction();
@@ -622,10 +638,32 @@ namespace Footsies
             battleAI = new BattleAI(this);
         }
 
-        private void initialiseTutorialAI()
+        private void initialiseTutorial()
         {
             battleAI = new BattleAI(this);
-            battleAI.enableTutorialMode();
+            battleAI.enableTutorialMode(tutorialStage);
+
+            tutorialPanel.SetActive(true);
+
+            switch (tutorialStage)
+            {
+                case 0:
+                    tutorialText[0].SetActive(true);
+                    tutorialText[1].SetActive(false);
+                    tutorialText[2].SetActive(false);
+                    break;
+                case 1:
+                    tutorialText[0].SetActive(false);
+                    tutorialText[1].SetActive(true);
+                    tutorialText[2].SetActive(false);
+                    break;
+                case 2:
+                    tutorialText[0].SetActive(false);
+                    tutorialText[1].SetActive(false);
+                    tutorialText[2].SetActive(true);
+                    break;
+            }
+
         }
     }
 

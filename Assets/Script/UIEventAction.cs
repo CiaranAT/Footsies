@@ -18,7 +18,7 @@ namespace Footsies
             BGMToggle,
             SEToggle,
             SettingsMenuToggle,
-            LoadAGNTVsAGNT,
+            LoadAgentVsAgent,
             FileToggle,
             LoopToggle
         }
@@ -77,7 +77,7 @@ namespace Footsies
                     break;
                 case Action.SEToggle:
                     break;
-                case Action.LoadAGNTVsAGNT:
+                case Action.LoadAgentVsAgent:
                     LoadAgentVsAgent();
                     break;
                 case Action.LoopToggle:

@@ -292,7 +292,6 @@ namespace Footsies
                                 fighter1RoundWon++;
                                 fighter1.RequestWinAction();
                                 tutorialStage++;
-
                             }
                             else if (!GameManager.Instance.isInfiniteMatchEnabled)
                             {

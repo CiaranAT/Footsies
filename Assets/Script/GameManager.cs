@@ -43,7 +43,7 @@ namespace Footsies
             isFilewriteEnabled = true;
             isInfiniteMatchEnabled = false;
 
-            loadTrainingEnv(); //used for training build, remove when building for release
+            //loadTrainingEnv(); //used for training build, remove when building for release
         }
 
         private void Update()

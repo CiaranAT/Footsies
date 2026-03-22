@@ -180,21 +180,21 @@ namespace Footsies
                 if (battleCore.roundState == BattleCore.RoundStateType.Fight)
                 {
                     //Larger continous negative reward when agent goes to one side of level
-                    if (this_agent_pos < -3.5 || this_agent_pos > 3.5)
-                    {
-                        SetReward(-0.15f);
-                    }
-
-                    //Larger continous negative reward if agent is too far from or too close to the opponent
-                    else if (fighters_dist > 4.5)
-                    {
-                        SetReward(-0.15f);
-                    }
-                    else if (fighters_dist < 2.0)
+                    if (this_agent_pos < -3 || this_agent_pos > 3)
                     {
                         SetReward(-0.15f);
                     }
                     else { SetReward(-0.03f); }
+
+                    //Larger continous negative reward if agent is too far from or too close to the opponent
+                    if (fighters_dist > 4.0)
+                    {
+                        SetReward(-0.30f);
+                    }
+                    else if (fighters_dist < 2.5)
+                    {
+                        SetReward(-0.30f);
+                    }
                 }
             }
             else AddPaddedObservations(sensor);

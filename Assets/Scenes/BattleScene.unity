@@ -1035,7 +1035,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Demonstrations.DemonstrationRecorder
   Record: 0
   NumStepsToRecord: 0
-  DemonstrationName: AgentVsP2
+  DemonstrationName: P1VsP2
   DemonstrationDirectory: Demos
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

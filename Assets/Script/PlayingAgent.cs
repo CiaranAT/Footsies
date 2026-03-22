@@ -190,7 +190,7 @@ namespace Footsies
                     {
                         SetReward(-0.15f);
                     }
-                    else if (fighters_dist < 2.0)
+                    else if (fighters_dist < 1.5)
                     {
                         SetReward(-0.15f);
                     }

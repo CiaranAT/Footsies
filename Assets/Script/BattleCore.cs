@@ -137,8 +137,7 @@ namespace Footsies
                             ChangeRoundState(RoundStateType.Fight);
                         }
                     }
-                    else if (timer <= 0f
-                        || GameManager.Instance.gameMode == GameManager.GameMode.AgentVsAgent) // add for training || GameManager.Instance.gameMode == GameManager.GameMode.AgentVsAgent
+                    else if (timer <= 0f )
                     {
                         ChangeRoundState(RoundStateType.Fight);
                     }
@@ -172,8 +171,7 @@ namespace Footsies
 
                     UpdateKOState();
                     timer -= Time.deltaTime;
-                    if (timer <= 0f
-                        || GameManager.Instance.gameMode == GameManager.GameMode.AgentVsAgent) //add for training || GameManager.Instance.gameMode == GameManager.GameMode.AgentVsAgent
+                    if (timer <= 0f)
                     {
                         ChangeRoundState(RoundStateType.End);
                     }
@@ -184,8 +182,7 @@ namespace Footsies
                     UpdateEndState();
                     timer -= Time.deltaTime;
                     if (timer <= 0f
-                        || (timer <= endStateSkippableTime && IsKOSkipButtonPressed())
-                        || GameManager.Instance.gameMode == GameManager.GameMode.AgentVsAgent) //add for training || GameManager.Instance.gameMode == GameManager.GameMode.AgentVsAgent
+                        || (timer <= endStateSkippableTime && IsKOSkipButtonPressed()))
                     {
                         ChangeRoundState(RoundStateType.Stop);
                     }

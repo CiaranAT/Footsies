@@ -37,7 +37,7 @@ behaviors:
           deterministic: false
       gail:
         strength: 0.5
-        demo_path: C:\Users\Ciaran\Documents\GitHub\Footsies\Demos\P1VsP2_0.demo
+        demo_path: C:\Users\Ciaran\Documents\GitHub\Footsies\Demos\AgentVsP2_0.demo
     init_path: null
     keep_checkpoints: 5
     even_checkpoints: false
@@ -53,5 +53,5 @@ behaviors:
       team_change: 100000
     behavioral_cloning:
       strength: 0.5
-      demo_path: C:\Users\Ciaran\Documents\GitHub\Footsies\Demos\P1VsP2_0.demo
+      demo_path: C:\Users\Ciaran\Documents\GitHub\Footsies\Demos\AgentVsP2_0.demo
 

@@ -119,7 +119,8 @@ namespace Footsies
                     UpdateIntroState();
 
                     timer -= Time.deltaTime;
-                    if (timer <= 0f)
+                    if (timer <= 0f
+                        || GameManager.Instance.gameMode == GameManager.GameMode.AgentVsAgent)
                     {
                         ChangeRoundState(RoundStateType.Fight);
                     }
@@ -153,7 +154,8 @@ namespace Footsies
 
                     UpdateKOState();
                     timer -= Time.deltaTime;
-                    if (timer <= 0f)
+                    if (timer <= 0f
+                        || GameManager.Instance.gameMode == GameManager.GameMode.AgentVsAgent)
                     {
                         ChangeRoundState(RoundStateType.End);
                     }
@@ -164,7 +166,8 @@ namespace Footsies
                     UpdateEndState();
                     timer -= Time.deltaTime;
                     if (timer <= 0f
-                        || (timer <= endStateSkippableTime && IsKOSkipButtonPressed()))
+                        || (timer <= endStateSkippableTime && IsKOSkipButtonPressed())
+                        || GameManager.Instance.gameMode == GameManager.GameMode.AgentVsAgent)
                     {
                         ChangeRoundState(RoundStateType.Stop);
                     }

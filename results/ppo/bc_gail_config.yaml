@@ -29,8 +29,8 @@ behaviors:
         strength: 1.0
       gail:
         demo_path: C:\Users\Ciaran\Documents\GitHub\Footsies\Demos\HitConfirmDemos
-        strength: 0.1
-        learning_rate: 0.0001 
+        strength: 0.0
+        learning_rate: 0.0005 
     init_path: null
     keep_checkpoints: 5
     even_checkpoints: false

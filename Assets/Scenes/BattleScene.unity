@@ -428,7 +428,7 @@ PrefabInstance:
     - target: {fileID: 5937015299338901729, guid: 6556e3cbb4f455743a22ed6876105424,
         type: 3}
       propertyPath: m_BehaviorType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5937015299338901729, guid: 6556e3cbb4f455743a22ed6876105424,
         type: 3}
@@ -488,7 +488,7 @@ PrefabInstance:
     - target: {fileID: 9001632365083702129, guid: 6556e3cbb4f455743a22ed6876105424,
         type: 3}
       propertyPath: MaxStep
-      value: 0
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -517,7 +517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2902496c0120472b90269f94a0aec7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Demonstrations.DemonstrationRecorder
-  Record: 1
+  Record: 0
   NumStepsToRecord: 0
   DemonstrationName: VsDummy
   DemonstrationDirectory: Demos

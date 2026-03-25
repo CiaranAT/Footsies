@@ -36,7 +36,7 @@ behaviors:
     threaded: false
     behavioral_cloning:
       demo_path: C:\Users\Ciaran\Documents\GitHub\Footsies\Demos\VsDummy_0.demo
-      strength: 0.9  # Full power BC
-      steps: 100000       # Always active
+      strength: 0.5  
+      steps: 50000    
     
 

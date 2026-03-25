@@ -118,14 +118,19 @@ namespace Footsies
         {
             if (isWinner)
             {
-                SetReward(1.0f); 
+                //SetReward(10.0f); 
                 EndEpisode();
             }
             else
             {
-                SetReward(-1.0f);
+                //SetReward(-1.0f);
                 EndEpisode();
             }
+        }
+
+        public void giveHitConfirmReward()
+        {
+            SetReward(10.0f);
         }
 
         public override void CollectObservations(VectorSensor sensor)
@@ -182,18 +187,18 @@ namespace Footsies
                     //Larger continous negative reward when agent goes to one side of level
                     if (this_agent_pos < -3 || this_agent_pos > 3)
                     {
-                        SetReward(-0.15f);
+                        SetReward(-0.3f);
                     }
                     //Larger continous negative reward if agent is too far from or too close to the opponent
-                    if (fighters_dist > 4.0)
+                    if (fighters_dist > 3.0)
                     {
-                        SetReward(-0.15f);
+                        SetReward(-0.3f);
                     }
                     else if (fighters_dist < 2.0)
                     {
-                        SetReward(-0.15f);
+                        SetReward(-0.3f);
                     }
-                    else { SetReward(-0.03f); }
+                    else { SetReward(-0.3f); }
                 }
             }
             else AddPaddedObservations(sensor);

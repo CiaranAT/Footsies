@@ -106,6 +106,7 @@ namespace Footsies
         private int bufferActionID = -1;
         private int reserveDamageActionID = -1;
 
+        private PlayingAgent agentRef;
         public int spriteShakePosition { get; private set; }
         private int maxSpriteShakeFrame = 6;
 
@@ -225,6 +226,7 @@ namespace Footsies
             {
                 SetCurrentAction(bufferActionID);
                 bufferActionID = -1;
+                agentRef.giveHitConfirmReward();
                 return;
             }
 
@@ -714,6 +716,11 @@ namespace Footsies
             fightPosRect.height = dataRect.height;
 
             return fightPosRect;
+        }
+
+        public void setPlayingAgentRef(PlayingAgent agent)
+        {
+            agentRef = agent;
         }
     }
 }

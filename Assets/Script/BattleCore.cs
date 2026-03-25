@@ -261,8 +261,8 @@ namespace Footsies
                             }
                             if (GameManager.Instance.gameMode == GameManager.GameMode.AgentVsAgent)
                             {
-                                trainingOpponentAgent.giveRoundOverReward(false);
                                 playingAgent.giveRoundOverReward(true);
+                                trainingOpponentAgent.giveRoundOverReward(false); 
                             }
                         }
                         else if (deadFighter[0] == fighter2)
@@ -274,8 +274,9 @@ namespace Footsies
                             }
                             if (GameManager.Instance.gameMode == GameManager.GameMode.AgentVsAgent)
                             {
-                                trainingOpponentAgent.giveRoundOverReward(true);
                                 playingAgent.giveRoundOverReward(false);
+                                trainingOpponentAgent.giveRoundOverReward(true);
+     
                             }
                         }
                     }

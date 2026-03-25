@@ -613,8 +613,8 @@ namespace Footsies
         private void initialisePlayingAgent()
         {
             playingAgent = GameObject.Find("PlayingAgent").GetComponent<PlayingAgent>();
-            playingAgent.Initialize(this, true);
-            fighter1.setPlayingAgentRef(playingAgent);
+            playingAgent.Initialize(this, true); 
+            fighter2.setPlayingAgentRef(playingAgent);
         }
 
         private void initialiseTrainingOpponentAgent()

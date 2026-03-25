@@ -112,6 +112,8 @@ namespace Footsies
         {
             //clear observation queue for new round, avoids adding observations from the previous round
             delayedObservationQueue.Clear();
+            battleCore.resetBattle();
+            
         }
 
         public void giveRoundOverReward(bool isWinner)
@@ -131,6 +133,12 @@ namespace Footsies
         public void giveHitConfirmReward()
         {
             SetReward(10.0f);
+        }
+
+        public void giveHitConfirmPenalty()
+        {
+            SetReward(-1.0f);
+            EndEpisode();
         }
 
         public override void CollectObservations(VectorSensor sensor)

@@ -229,8 +229,15 @@ namespace Footsies
                 agentRef.giveHitConfirmReward();
                 return;
             }
+            else if (currentActionID == 100 || currentActionID == 105)
+            {
+                if(currentActionHitCount > 0 && currentActionFrame > 19)
+                {
+                    agentRef.EndEpisode();
+                }
+            }
 
-            var isForward = IsForwardInput(input[0]);
+                var isForward = IsForwardInput(input[0]);
             var isBackward = IsBackwardInput(input[0]);
             bool isAttack = IsAttackInput(inputDown[0]);
             if (CheckSpecialAttackInput())

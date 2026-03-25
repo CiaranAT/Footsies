@@ -632,6 +632,13 @@ namespace Footsies
             battleAI = new BattleAI(this);
             battleAI.enableTutorialMode();
         }
+
+        public void resetBattle()
+        {
+            callBattleStart();
+        }
     }
 
+
+    
 }

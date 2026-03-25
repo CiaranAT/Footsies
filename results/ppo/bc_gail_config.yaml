@@ -28,8 +28,8 @@ behaviors:
         gamma: 0.99
         strength: 1.0
       gail:
-        demo_path: C:\Users\Ciaran\Documents\GitHub\Footsies\Demos\VsDummy_0.demo
-        strength: 0.3
+        demo_path: C:\Users\Ciaran\Documents\GitHub\Footsies\Demos\HitConfirmDemos
+        strength: 0.1
         learning_rate: 0.0001 
     init_path: null
     keep_checkpoints: 5

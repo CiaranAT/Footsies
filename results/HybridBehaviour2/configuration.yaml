@@ -5,18 +5,18 @@ behaviors:
     hyperparameters:
       batch_size: 1024
       buffer_size: 10240
-      learning_rate: 0.0001
-      beta: 0.002
+      learning_rate: 0.0003
+      beta: 0.005
       epsilon: 0.2
       lambd: 0.95
-      num_epoch: 5
+      num_epoch: 3
       shared_critic: false
       learning_rate_schedule: linear
       beta_schedule: linear
       epsilon_schedule: linear
     checkpoint_interval: 500000
     network_settings:
-      normalize: false
+      normalize: true
       hidden_units: 128
       num_layers: 2
       vis_encode_type: simple
@@ -25,7 +25,7 @@ behaviors:
       deterministic: false
     reward_signals:
       extrinsic:
-        gamma: 0.998
+        gamma: 0.95
         strength: 1.0
         network_settings:
           normalize: false
@@ -35,18 +35,34 @@ behaviors:
           memory: null
           goal_conditioning_type: hyper
           deterministic: false
+      gail:
+        gamma: 0.95
+        strength: 0.5
+        network_settings:
+          normalize: false
+          hidden_units: 128
+          num_layers: 2
+          vis_encode_type: simple
+          memory: null
+          goal_conditioning_type: hyper
+          deterministic: false
+        learning_rate: 0.0003
+        encoding_size: null
+        use_actions: false
+        use_vail: false
+        demo_path: C:\Users\Ciaran\Documents\GitHub\Footsies\Demos\VsDummy_0.demo
     init_path: null
     keep_checkpoints: 5
     even_checkpoints: false
     max_steps: 5000000
-    time_horizon: 512
+    time_horizon: 128
     summary_freq: 5000
     threaded: false
     self_play: null
     behavioral_cloning:
-      demo_path: C:\Users\Ciaran\Documents\GitHub\Footsies\Demos\SetHitConfirm_1.demo
-      steps: 100000
-      strength: 0.2
+      demo_path: C:\Users\Ciaran\Documents\GitHub\Footsies\Demos\VsDummy_0.demo
+      steps: 500000
+      strength: 0.1
       samples_per_update: 0
       num_epoch: null
       batch_size: null
@@ -72,7 +88,7 @@ engine_settings:
   no_graphics_monitor: false
 environment_parameters: null
 checkpoint_settings:
-  run_id: HybridBehaviour
+  run_id: HybridBehaviour2
   initialize_from: null
   load_model: false
   resume: true

@@ -339,7 +339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.DecisionRequester
-  DecisionPeriod: 5
+  DecisionPeriod: 1
   TakeActionsBetweenDecisions: 1
 --- !u!114 &1888859157
 MonoBehaviour:
@@ -386,7 +386,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
+  MaxStep: 1000
 --- !u!4 &1888859159
 Transform:
   m_ObjectHideFlags: 0
@@ -493,7 +493,7 @@ PrefabInstance:
     - target: {fileID: 9001632365083702129, guid: 6556e3cbb4f455743a22ed6876105424,
         type: 3}
       propertyPath: MaxStep
-      value: 1000
+      value: 500
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -522,9 +522,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2902496c0120472b90269f94a0aec7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Demonstrations.DemonstrationRecorder
-  Record: 0
+  Record: 1
   NumStepsToRecord: 0
-  DemonstrationName: VsDummy
+  DemonstrationName: RandomHitConfirm
   DemonstrationDirectory: Demos
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

@@ -121,11 +121,12 @@ namespace Footsies
             if (isWinner)
             {
                 //SetReward(10.0f); 
+                //AddReward(-1.0f);
                 EndEpisode();
             }
             else
             {
-                //SetReward(-1.0f);
+                //AddReward(-1.0f);
                 EndEpisode();
             }
         }
@@ -133,11 +134,12 @@ namespace Footsies
         public void giveHitConfirmReward()
         {
             AddReward(100.0f);
+            EndEpisode();
         }
 
         public void giveHitConfirmPenalty()
         {
-            AddReward(-10.0f);
+            AddReward(-5.0f);
             EndEpisode();
         }
 
@@ -193,20 +195,34 @@ namespace Footsies
                 if (battleCore.roundState == BattleCore.RoundStateType.Fight)
                 {
                     //Larger continous negative reward when agent goes to one side of level
-                    if (this_agent_pos < -3 || this_agent_pos > 3)
+                    if (this_agent_pos < -4 || this_agent_pos > 4)
                     {
                         AddReward(-0.3f);
                     }
-                    //Larger continous negative reward if agent is too far from or too close to the opponent
-                    if (fighters_dist > 3.0)
+                    ////Larger continous negative reward if agent is too far from or too close to the opponent
+                    //if ((this_agent_state == 100 || this_agent_state == 105) && fighters_dist < 2.5)
+                    //{
+                    //    AddReward(+0.5f);
+                    //}
+                    else if (this_agent_state == 1)
                     {
-                        AddReward(-0.3f);
+                        AddReward((+1.0f / fighters_dist) * 0.1f);
                     }
-                    else if (fighters_dist < 2.0)
+                    else if (fighters_dist > 3.0)
                     {
                         AddReward(-0.3f);
                     }
                     else { AddReward(-0.3f); }
+
+                    //if((this_agent_state == 100 || this_agent_state == 105 || this_agent_state == 0) && fighters_dist > 2.5){
+                    //    AddReward(-0.02f);
+                    //}
+
+                    //if(this_agent_state == 115)
+                    //{
+                    //    AddReward(-1.0f);
+                    //    EndEpisode();
+                    //}
                 }
             }
             else AddPaddedObservations(sensor);

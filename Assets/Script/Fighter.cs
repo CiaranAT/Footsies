@@ -226,14 +226,14 @@ namespace Footsies
             {
                 SetCurrentAction(bufferActionID);
                 bufferActionID = -1;
-                agentRef.giveHitConfirmReward();
+                //agentRef.giveHitConfirmReward();
                 return;
             }
             else if (currentActionID == 100 || currentActionID == 105)
             {
                 if(currentActionHitCount > 0 && currentActionFrame > 19)
                 {
-                    agentRef.giveHitConfirmPenalty();
+                    //agentRef.giveHitConfirmPenalty();
                 }
             }
 

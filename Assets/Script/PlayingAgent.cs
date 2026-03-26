@@ -112,35 +112,34 @@ namespace Footsies
         {
             //clear observation queue for new round, avoids adding observations from the previous round
             delayedObservationQueue.Clear();
-            battleCore.resetBattle();
+            //battleCore.resetBattle();
             
         }
 
         public void giveRoundOverReward(bool isWinner)
         {
             if (isWinner)
-            {
-                //SetReward(10.0f); 
-                //AddReward(-1.0f);
+            { 
+                AddReward(100.0f);
                 EndEpisode();
             }
             else
             {
-                //AddReward(-1.0f);
+                AddReward(-50.0f);
                 EndEpisode();
             }
         }
 
         public void giveHitConfirmReward()
         {
-            AddReward(100.0f);
-            EndEpisode();
+            //AddReward(100.0f);
+            //EndEpisode();
         }
 
         public void giveHitConfirmPenalty()
         {
-            AddReward(-5.0f);
-            EndEpisode();
+            //AddReward(-5.0f);
+            //EndEpisode();
         }
 
         public override void CollectObservations(VectorSensor sensor)
@@ -199,37 +198,19 @@ namespace Footsies
                     {
                         AddReward(-0.3f);
                     }
-                    //////Larger continous negative reward if agent is too far from or too close to the opponent
-                    if (this_agent_state == 105)
+                    else if (fighters_dist < 3.5 && fighters_dist > 2.5)
                     {
-                        AddReward(-2.5f);
-                        EndEpisode();
+                        AddReward(0.20f);
                     }
-                    if (this_agent_state == 1)
+                    else if (fighters_dist < 2.5)
                     {
-                        AddReward(0.01f);
+                        AddReward(-1.00f);
                     }
-                    //else if (fighters_dist < 2.3)
-                    //{
-                    //    AddReward(-0.5f);
-                    //}
-                    //else if (fighters_dist > 2.8)
-                    //{
-                    //    AddReward(-0.5f);
-                    //}
-                    else { AddReward(-0.3f); }
-
-                    //if((this_agent_state == 100 || this_agent_state == 105 || this_agent_state == 0) && fighters_dist > 2.5){
-                    //    AddReward(-0.02f);
-                    //}
-
-                    
-
-                    //if(this_agent_state == 115)
-                    //{
-                    //    AddReward(-1.0f);
-                    //    EndEpisode();
-                    //}
+                    else { AddReward(-0.1f); }
+                    if (GetThisFighter().isInHitStun)
+                    {
+                        AddReward(-3.0f);
+                    }
                 }
             }
             else AddPaddedObservations(sensor);

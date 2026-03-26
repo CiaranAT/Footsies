@@ -5,9 +5,9 @@ behaviors:
     hyperparameters:
       batch_size: 1024
       buffer_size: 10240
-      learning_rate: 0.0003
-      beta: 0.005
-      epsilon: 0.2
+      learning_rate: 0.0005
+      beta: 0.015
+      epsilon: 0.1
       lambd: 0.95
       num_epoch: 3
       shared_critic: false
@@ -45,8 +45,8 @@ behaviors:
     self_play: null
     behavioral_cloning:
       demo_path: C:\Users\Ciaran\Documents\GitHub\Footsies\Demos\VsDummy_0.demo
-      steps: 50000
-      strength: 0.5
+      steps: 100000
+      strength: 0.0
       samples_per_update: 0
       num_epoch: null
       batch_size: null

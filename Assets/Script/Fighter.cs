@@ -233,7 +233,7 @@ namespace Footsies
             {
                 if(currentActionHitCount > 0 && currentActionFrame > 19)
                 {
-                    agentRef.EndEpisode();
+                    agentRef.giveHitConfirmPenalty();
                 }
             }
 

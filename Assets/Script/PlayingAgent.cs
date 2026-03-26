@@ -132,12 +132,12 @@ namespace Footsies
 
         public void giveHitConfirmReward()
         {
-            SetReward(10.0f);
+            AddReward(100.0f);
         }
 
         public void giveHitConfirmPenalty()
         {
-            SetReward(-1.0f);
+            AddReward(-10.0f);
             EndEpisode();
         }
 
@@ -195,18 +195,18 @@ namespace Footsies
                     //Larger continous negative reward when agent goes to one side of level
                     if (this_agent_pos < -3 || this_agent_pos > 3)
                     {
-                        SetReward(-0.3f);
+                        AddReward(-0.3f);
                     }
                     //Larger continous negative reward if agent is too far from or too close to the opponent
                     if (fighters_dist > 3.0)
                     {
-                        SetReward(-0.3f);
+                        AddReward(-0.3f);
                     }
                     else if (fighters_dist < 2.0)
                     {
-                        SetReward(-0.3f);
+                        AddReward(-0.3f);
                     }
-                    else { SetReward(-0.3f); }
+                    else { AddReward(-0.3f); }
                 }
             }
             else AddPaddedObservations(sensor);

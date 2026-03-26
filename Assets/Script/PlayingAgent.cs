@@ -199,24 +199,31 @@ namespace Footsies
                     {
                         AddReward(-0.3f);
                     }
-                    ////Larger continous negative reward if agent is too far from or too close to the opponent
-                    //if ((this_agent_state == 100 || this_agent_state == 105) && fighters_dist < 2.5)
+                    //////Larger continous negative reward if agent is too far from or too close to the opponent
+                    if (this_agent_state == 105)
+                    {
+                        AddReward(-2.5f);
+                        EndEpisode();
+                    }
+                    if (this_agent_state == 1)
+                    {
+                        AddReward(0.01f);
+                    }
+                    //else if (fighters_dist < 2.3)
                     //{
-                    //    AddReward(+0.5f);
+                    //    AddReward(-0.5f);
                     //}
-                    else if (this_agent_state == 1)
-                    {
-                        AddReward((+1.0f / fighters_dist) * 0.1f);
-                    }
-                    else if (fighters_dist > 3.0)
-                    {
-                        AddReward(-0.3f);
-                    }
+                    //else if (fighters_dist > 2.8)
+                    //{
+                    //    AddReward(-0.5f);
+                    //}
                     else { AddReward(-0.3f); }
 
                     //if((this_agent_state == 100 || this_agent_state == 105 || this_agent_state == 0) && fighters_dist > 2.5){
                     //    AddReward(-0.02f);
                     //}
+
+                    
 
                     //if(this_agent_state == 115)
                     //{

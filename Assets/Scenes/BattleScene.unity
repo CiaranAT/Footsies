@@ -522,9 +522,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2902496c0120472b90269f94a0aec7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Demonstrations.DemonstrationRecorder
-  Record: 1
+  Record: 0
   NumStepsToRecord: 0
-  DemonstrationName: RandomHitConfirm
+  DemonstrationName: LowForwardConfirm
   DemonstrationDirectory: Demos
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

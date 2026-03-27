@@ -355,6 +355,10 @@ namespace Footsies
             {
                 p1Input.input |= trainingOpponentAgent.getNextAIInput();
             }
+            if (battleAI != null)
+            {
+                p1Input.input |= battleAI.getNextAIInput();
+            }
             else
             {
                 p1Input.input |= InputManager.Instance.GetButton(InputManager.Command.p1Left) ? (int)InputDefine.Left : 0;
@@ -383,10 +387,10 @@ namespace Footsies
 
             InputData p2Input = new InputData();
 
-            if (battleAI != null)
-            {
-                p2Input.input |= battleAI.getNextAIInput();
-            }
+            //if (battleAI != null)
+            //{
+            //    p2Input.input |= battleAI.getNextAIInput();
+            //}
             if (playingAgent != null)
             {
                 p2Input.input |= playingAgent.getNextAIInput();
@@ -605,11 +609,11 @@ namespace Footsies
 
         public void callBattleStart()
         {
-            fighter1.SetupBattleStart(fighterDataList[0], new Vector2(-2.0f, 0f), true);
-            fighter2.SetupBattleStart(fighterDataList[0], new Vector2(2f, 0f), false);
-            
-            //fighter1.SetupBattleStart(fighterDataList[0], new Vector2(Random.Range(0.0f, 4.0f)*-1.0f, 0f), true);
+            //fighter1.SetupBattleStart(fighterDataList[0], new Vector2(-2.0f, 0f), true);
             //fighter2.SetupBattleStart(fighterDataList[0], new Vector2(2f, 0f), false);
+
+            fighter1.SetupBattleStart(fighterDataList[0], new Vector2(Random.Range(-2.0f, -4.3f), 0f), true);
+            fighter2.SetupBattleStart(fighterDataList[0], new Vector2(2f, 0f), false);
         }
 
         private void initialisePlayingAgent()
@@ -623,6 +627,9 @@ namespace Footsies
         {
             trainingOpponentAgent = GameObject.Find("TrainingOpponentAgent").GetComponent<PlayingAgent>();
             trainingOpponentAgent.Initialize(this, false);
+
+            //battleAI = new BattleAI(this);
+            //battleAI.enableTutorialMode();
         }
         private void initialiseBaseBattleAI()
         {

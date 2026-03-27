@@ -339,7 +339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.DecisionRequester
-  DecisionPeriod: 5
+  DecisionPeriod: 3
   TakeActionsBetweenDecisions: 1
 --- !u!114 &1888859157
 MonoBehaviour:
@@ -413,7 +413,12 @@ PrefabInstance:
     - target: {fileID: 1914332502286485980, guid: 6556e3cbb4f455743a22ed6876105424,
         type: 3}
       propertyPath: DecisionPeriod
-      value: 2
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1914332502286485980, guid: 6556e3cbb4f455743a22ed6876105424,
+        type: 3}
+      propertyPath: TakeActionsBetweenDecisions
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4652600395318098463, guid: 6556e3cbb4f455743a22ed6876105424,
         type: 3}
@@ -493,7 +498,7 @@ PrefabInstance:
     - target: {fileID: 9001632365083702129, guid: 6556e3cbb4f455743a22ed6876105424,
         type: 3}
       propertyPath: MaxStep
-      value: 1000
+      value: 500
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -524,7 +529,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Demonstrations.DemonstrationRecorder
   Record: 0
   NumStepsToRecord: 0
-  DemonstrationName: WhiffPunish
+  DemonstrationName: VsCamper
   DemonstrationDirectory: Demos
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

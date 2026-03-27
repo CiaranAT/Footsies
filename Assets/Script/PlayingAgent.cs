@@ -196,20 +196,24 @@ namespace Footsies
                     //Larger continous negative reward when agent goes to one side of level
                     if (this_agent_pos < -4 || this_agent_pos > 4)
                     {
-                        AddReward(-0.3f);
+                        AddReward(-5.0f);
                     }
                     else if (fighters_dist < 3.5 && fighters_dist > 2.5)
                     {
-                        AddReward(0.20f);
+                        AddReward(0.3f);
                     }
-                    else if (fighters_dist < 2.5)
+                    else if (fighters_dist < 2.25)
                     {
-                        AddReward(-1.00f);
+                        AddReward(-2.5f);
                     }
-                    else { AddReward(-0.1f); }
+                    else if (fighters_dist > 3.5 && this_agent_state == 1)
+                    {
+                        AddReward(0.02f);
+                    }
+                    else { AddReward(-0.5f); }
                     if (GetThisFighter().isInHitStun)
                     {
-                        AddReward(-3.0f);
+                        AddReward(-2.5f);
                     }
                 }
             }

@@ -62,7 +62,8 @@ namespace Footsies
                     }
                     else
                     {
-                        AddOneHitImmediateAttack();
+                        AddForwardInputQueue(30);
+                        AddBackwardInputQueue(15);
                     }
                 }
 
@@ -73,6 +74,14 @@ namespace Footsies
                     if (!isTutorialMode)
                     {
                         SelectAttack(fightState);
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 60; i++)
+                        {
+                            attackQueue.Enqueue(0);
+                        }
+                        AddTwoHitImmediateAttack();
                     }
                 }
             }

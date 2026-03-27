@@ -37,7 +37,7 @@ behaviors:
           deterministic: false
       gail:
         gamma: 0.99
-        strength: 0.4
+        strength: 0.3
         network_settings:
           normalize: false
           hidden_units: 128
@@ -50,7 +50,7 @@ behaviors:
         encoding_size: null
         use_actions: false
         use_vail: false
-        demo_path: C:\Users\Ciaran\Documents\GitHub\Footsies\Demos\WhiffPunish.demo
+        demo_path: C:\Users\Ciaran\Documents\GitHub\Footsies\Demos\VsHybridLong.demo
     init_path: null
     keep_checkpoints: 5
     even_checkpoints: false
@@ -60,7 +60,7 @@ behaviors:
     threaded: false
     self_play: null
     behavioral_cloning:
-      demo_path: C:\Users\Ciaran\Documents\GitHub\Footsies\Demos\WhiffPunish.demo
+      demo_path: C:\Users\Ciaran\Documents\GitHub\Footsies\Demos\VsHybridLong.demo
       steps: 100000
       strength: 0.1
       samples_per_update: 0

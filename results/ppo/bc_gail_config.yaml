@@ -26,10 +26,10 @@ behaviors:
     reward_signals:
       extrinsic:
         gamma: 0.99
-        strength: 1.0
+        strength: 0.3
       gail:
-        demo_path: C:\Users\Ciaran\Documents\GitHub\Footsies\Demos\RandomHitConfirm.demo
-        strength: 0.1
+        demo_path: C:\Users\Ciaran\Documents\GitHub\Footsies\Demos\P1VsP2_0.demo
+        strength: 1.0
         learning_rate: 0.0001 
     init_path: null
     keep_checkpoints: 5
@@ -37,5 +37,8 @@ behaviors:
     max_steps: 5000000
     time_horizon: 128
     summary_freq: 5000
-    threaded: false        
+    threaded: false
+    behavioral_cloning:
+      strength: 0.1
+      demo_path: C:\Users\Ciaran\Documents\GitHub\Footsies\Demos\P1VsP2_0.demo        
 

@@ -609,11 +609,11 @@ namespace Footsies
 
         public void callBattleStart()
         {
-            //fighter1.SetupBattleStart(fighterDataList[0], new Vector2(-2.0f, 0f), true);
-            //fighter2.SetupBattleStart(fighterDataList[0], new Vector2(2f, 0f), false);
-
-            fighter1.SetupBattleStart(fighterDataList[0], new Vector2(Random.Range(-2.0f, -4.3f), 0f), true);
+            fighter1.SetupBattleStart(fighterDataList[0], new Vector2(-2.0f, 0f), true);
             fighter2.SetupBattleStart(fighterDataList[0], new Vector2(2f, 0f), false);
+
+            //fighter1.SetupBattleStart(fighterDataList[0], new Vector2(Random.Range(-2.0f, -4.3f), 0f), true);
+            //fighter2.SetupBattleStart(fighterDataList[0], new Vector2(2f, 0f), false);
         }
 
         private void initialisePlayingAgent()

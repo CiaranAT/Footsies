@@ -196,17 +196,17 @@ namespace Footsies
                     //Larger continous negative reward when agent goes to one side of level
                     if (this_agent_pos < -4 || this_agent_pos > 4)
                     {
-                        AddReward(-5.0f);
+                        AddReward(-1.0f);
                     }
-                    else if (fighters_dist < 3.5 && fighters_dist > 2.5)
+                    else if (fighters_dist < 4.0 && fighters_dist > 2.5)
                     {
-                        AddReward(0.3f);
+                        AddReward(0.5f);
                     }
-                    else if (fighters_dist < 2.25)
+                    else if (fighters_dist < 2.5)
                     {
-                        AddReward(-2.5f);
+                        AddReward(-1.0f);
                     }
-                    else if (fighters_dist > 3.5 && this_agent_state == 1)
+                    else if (fighters_dist > 4.0 && this_agent_state == 1)
                     {
                         AddReward(0.02f);
                     }

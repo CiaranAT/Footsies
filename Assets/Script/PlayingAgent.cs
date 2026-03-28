@@ -120,12 +120,12 @@ namespace Footsies
         {
             if (isWinner)
             { 
-                AddReward(100.0f);
+                AddReward(1.0f);
                 EndEpisode();
             }
             else
             {
-                AddReward(-50.0f);
+                AddReward(-1.0f);
                 EndEpisode();
             }
         }
@@ -196,25 +196,21 @@ namespace Footsies
                     //Larger continous negative reward when agent goes to one side of level
                     if (this_agent_pos < -4 || this_agent_pos > 4)
                     {
-                        AddReward(-1.0f);
+                        AddReward(-0.03f);
                     }
                     else if (fighters_dist < 4.0 && fighters_dist > 2.5)
                     {
-                        AddReward(0.5f);
+                        AddReward(0.01f);
                     }
                     else if (fighters_dist < 2.5)
                     {
-                        AddReward(-1.0f);
+                        AddReward(-0.03f);
                     }
                     else if (fighters_dist > 4.0 && this_agent_state == 1)
                     {
-                        AddReward(0.02f);
+                        AddReward(0.005f);
                     }
-                    else { AddReward(-0.5f); }
-                    if (GetThisFighter().isInHitStun)
-                    {
-                        AddReward(-2.5f);
-                    }
+                    else { AddReward(-0.01f); }
                 }
             }
             else AddPaddedObservations(sensor);

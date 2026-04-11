@@ -1,0 +1,39 @@
+{
+    "FootsiesAgent": {
+        "checkpoints": [
+            {
+                "steps": 499968,
+                "file_path": "results\\TrainingEnvTest\\FootsiesAgent\\FootsiesAgent-499968.onnx",
+                "reward": null,
+                "creation_time": 1773837626.5828424,
+                "auxillary_file_paths": [
+                    "results\\TrainingEnvTest\\FootsiesAgent\\FootsiesAgent-499968.pt"
+                ]
+            },
+            {
+                "steps": 500032,
+                "file_path": "results\\TrainingEnvTest\\FootsiesAgent\\FootsiesAgent-500032.onnx",
+                "reward": null,
+                "creation_time": 1773837626.6488805,
+                "auxillary_file_paths": [
+                    "results\\TrainingEnvTest\\FootsiesAgent\\FootsiesAgent-500032.pt"
+                ]
+            }
+        ],
+        "elo": 1200.0,
+        "final_checkpoint": {
+            "steps": 500032,
+            "file_path": "results\\TrainingEnvTest\\FootsiesAgent.onnx",
+            "reward": null,
+            "creation_time": 1773837626.6488805,
+            "auxillary_file_paths": [
+                "results\\TrainingEnvTest\\FootsiesAgent\\FootsiesAgent-500032.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.2.0.dev0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

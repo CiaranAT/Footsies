@@ -1,23 +1,45 @@
 {
-    "My Behavior": {
+    "P2Agent": {
         "checkpoints": [
             {
-                "steps": 264031,
-                "file_path": "results\\ppo\\My Behavior\\My Behavior-264031.onnx",
-                "reward": 1.1134969325153374,
-                "creation_time": 1763666219.5410006,
+                "steps": 2832,
+                "file_path": "results\\ppo\\P2Agent\\P2Agent-2832.onnx",
+                "reward": -26.75,
+                "creation_time": 1770807223.4395242,
                 "auxillary_file_paths": [
-                    "results\\ppo\\My Behavior\\My Behavior-264031.pt"
+                    "results\\ppo\\P2Agent\\P2Agent-2832.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 264031,
-            "file_path": "results\\ppo\\My Behavior.onnx",
-            "reward": 1.1134969325153374,
-            "creation_time": 1763666219.5410006,
+            "steps": 2832,
+            "file_path": "results\\ppo\\P2Agent.onnx",
+            "reward": -26.75,
+            "creation_time": 1770807223.4395242,
             "auxillary_file_paths": [
-                "results\\ppo\\My Behavior\\My Behavior-264031.pt"
+                "results\\ppo\\P2Agent\\P2Agent-2832.pt"
+            ]
+        }
+    },
+    "P1Agent": {
+        "checkpoints": [
+            {
+                "steps": 2832,
+                "file_path": "results\\ppo\\P1Agent\\P1Agent-2832.onnx",
+                "reward": -26.75,
+                "creation_time": 1770807223.5858388,
+                "auxillary_file_paths": [
+                    "results\\ppo\\P1Agent\\P1Agent-2832.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 2832,
+            "file_path": "results\\ppo\\P1Agent.onnx",
+            "reward": -26.75,
+            "creation_time": 1770807223.5858388,
+            "auxillary_file_paths": [
+                "results\\ppo\\P1Agent\\P1Agent-2832.pt"
             ]
         }
     },

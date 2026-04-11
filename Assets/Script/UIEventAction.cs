@@ -10,24 +10,49 @@ namespace Footsies
     {
         public enum Action
         {
-            LoadVsCPU,
+            LoadVsAgent,
             LoadVsPlayer,
+            LoadVsBaseCPU,
+            LoadTutorial,
             ExitGame,
             BGMToggle,
             SEToggle,
+            SettingsMenuToggle,
+            LoadAgentVsAgent,
+            FileToggle,
+            LoopToggle
         }
 
         public Action action;
 
         private void Awake()
         {
-            if(action == Action.BGMToggle)
+            Toggle toggle = null;
+            switch (action)
             {
-                var toggle = gameObject.GetComponent<Toggle>();
-                if (toggle != null)
-                {
-                    toggle.isOn = SoundManager.Instance.isBGMOn;
-                }
+                case Action.BGMToggle:
+                    toggle = gameObject.GetComponent<Toggle>();
+                    if (toggle != null)
+                    {
+                        toggle.isOn = SoundManager.Instance.isBGMOn;
+                    }
+                    break;
+                case Action.FileToggle:
+                    toggle = gameObject.GetComponent<Toggle>();
+                    if (toggle != null)
+                    {
+                        toggle.isOn = GameManager.Instance.isFilewriteEnabled;
+                    }
+                    break;
+                case Action.LoopToggle:
+                    toggle = gameObject.GetComponent<Toggle>();
+                    if (toggle != null)
+                    {
+                        toggle.isOn = GameManager.Instance.isInfiniteMatchEnabled;
+                    }
+                    break;
+
+
             }
         }
 
@@ -35,8 +60,8 @@ namespace Footsies
         {
             switch(action)
             {
-                case Action.LoadVsCPU:
-                    LoadVsCPU();
+                case Action.LoadVsAgent:
+                    LoadVsAgent();
                     break;
                 case Action.LoadVsPlayer:
                     LoadVsPlayer();
@@ -47,14 +72,32 @@ namespace Footsies
                 case Action.BGMToggle:
                     toggleBGM();
                     break;
+                case Action.SettingsMenuToggle:
+                    toggleSettingsMenu();
+                    break;
                 case Action.SEToggle:
+                    break;
+                case Action.LoadAgentVsAgent:
+                    LoadAgentVsAgent();
+                    break;
+                case Action.LoopToggle:
+                    toggleMatchLooping();
+                    break;
+                case Action.FileToggle:
+                    toggleFilewrite();
+                    break;
+                case Action.LoadVsBaseCPU:
+                    LoadVsBaseCPU();
+                    break;
+                case Action.LoadTutorial:
+                    LoadTutorial();
                     break;
             }
         }
 
-        public void LoadVsCPU()
+        public void LoadVsAgent()
         {
-            GameManager.Instance.LoadVsCPUScene();
+            GameManager.Instance.LoadVsAgentScene();
         }
 
         public void LoadVsPlayer()
@@ -67,6 +110,21 @@ namespace Footsies
             Application.Quit();
         }
 
+        public void LoadAgentVsAgent()
+        {
+            GameManager.Instance.LoadAgentVsAgentScene();
+        }
+
+        public void LoadVsBaseCPU()
+        {
+            GameManager.Instance.LoadVsBaseCPU();
+        }
+
+        public void LoadTutorial()
+        {
+            GameManager.Instance.LoadTutorial();
+        }
+
         public void toggleBGM()
         {
             var isOn = SoundManager.Instance.toggleBGM();
@@ -76,7 +134,30 @@ namespace Footsies
                 toggle.isOn = isOn;
             }
         }
-        
+
+        public void toggleSettingsMenu()
+        {
+            GameManager.Instance.toggleSettingsMenu();
+        }
+        public void toggleFilewrite()
+        {
+            var isOn = GameManager.Instance.toggleFilewrite();
+            var toggle = gameObject.GetComponent<Toggle>();
+            if (toggle != null)
+            {
+                toggle.isOn = isOn;
+            }
+        }
+
+        public void toggleMatchLooping() { 
+            var isOn = GameManager.Instance.toggleMatchLooping();
+            var toggle = gameObject.GetComponent<Toggle>();
+            if (toggle != null)
+            {
+                toggle.isOn = isOn;
+            }
+        }
+    
         public void OnPointerEnter(PointerEventData eventData)
         {
             EventSystem.current.SetSelectedGameObject(gameObject);

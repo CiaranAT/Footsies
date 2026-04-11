@@ -32,6 +32,12 @@ namespace Footsies
         private GameObject roundUI;
 
         [SerializeField]
+        private GameObject tutorialPanel;
+
+        [SerializeField]
+        private GameObject[] tutorialText;
+
+        [SerializeField]
         private List<FighterData> fighterDataList = new List<FighterData>();
 
         public bool debugP1Attack = false;
@@ -63,9 +69,11 @@ namespace Footsies
 
         private Animator roundUIAnimator;
 
-        //private BattleAI battleAI = null;
+        private BattleAI battleAI = null;
+        private int tutorialStage = 0;
 
-        private PlayingAgent playingAgent;
+        private PlayingAgent playingAgent = null;
+        private PlayingAgent trainingOpponentAgent = null; //playing agent that replaces player 1 in CPUVsCPU gamemode 
 
         private static uint maxRecordingInputFrame = 60 * 60 * 5;
         private InputData[] recordingP1Input = new InputData[maxRecordingInputFrame];
@@ -81,6 +89,7 @@ namespace Footsies
         public bool isDebugPause { get; private set; }
 
         private float introStateTime = 3f;
+        private float tutorialIntroStateTime = 10f;
         private float koStateTime = 2f;
         private float endStateTime = 3f;
         private float endStateSkippableTime = 1.5f;
@@ -100,6 +109,10 @@ namespace Footsies
             {
                 roundUIAnimator = roundUI.GetComponent<Animator>();
             }
+
+            FileSystem.Instance.StartNewMatchDataFile();
+
+            tutorialPanel.SetActive(false);
         }
         
         void FixedUpdate()
@@ -116,7 +129,15 @@ namespace Footsies
                     UpdateIntroState();
 
                     timer -= Time.deltaTime;
-                    if (timer <= 0f)
+                    if (GameManager.Instance.gameMode == GameManager.GameMode.Tutorial)
+                    {
+                        if ( timer <= 0f
+                            || IsKOSkipButtonPressed())
+                        {
+                            ChangeRoundState(RoundStateType.Fight);
+                        }
+                    }
+                    else if (timer <= 0f )
                     {
                         ChangeRoundState(RoundStateType.Fight);
                     }
@@ -180,6 +201,7 @@ namespace Footsies
                     if(fighter1RoundWon >= maxRoundWon
                         || fighter2RoundWon >= maxRoundWon)
                     {
+                        FileSystem.Instance.SaveMatchDataFile(this);
                         GameManager.Instance.LoadTitleScene();
                     }
 
@@ -191,14 +213,29 @@ namespace Footsies
 
                     timer = introStateTime;
 
+                    if(GameManager.Instance.gameMode == GameManager.GameMode.Tutorial)
+                    {
+                        timer = tutorialIntroStateTime;
+                    }
+
                     roundUIAnimator.SetTrigger("RoundStart");
 
-                    if (GameManager.Instance.isVsCPU)
+                    switch (GameManager.Instance.gameMode)
                     {
-                       //battleAI = new BattleAI(this);
-                       //playingAgent = new PlayingAgent(this);
-                       playingAgent = GameObject.Find("PlayingAgent").GetComponent<PlayingAgent>();
-                       playingAgent.Initialize(this);
+                        case GameManager.GameMode.VsAgent:
+                            initialisePlayingAgent();
+                            break;
+                        case GameManager.GameMode.VsBaseCPU:
+                            initialiseBaseBattleAI();
+                            break;
+                        case GameManager.GameMode.AgentVsAgent:
+                            initialisePlayingAgent();
+                            initialiseTrainingOpponentAgent();
+                            break;
+                        case GameManager.GameMode.Tutorial:
+                            initialiseTutorial();
+                            break;
+
                     }
 
                     break;
@@ -219,9 +256,6 @@ namespace Footsies
                     fighter1.ClearInput();
                     fighter2.ClearInput();
 
-                    //battleAI = null;
-                    playingAgent = null;
-
                     roundUIAnimator.SetTrigger("RoundEnd");
 
                     break;
@@ -230,21 +264,46 @@ namespace Footsies
                     timer = endStateTime;
 
                     var deadFighter = _fighters.FindAll((f) => f.isDead);
-                    if (deadFighter.Count == 1)
+                    
+                    if (deadFighter.Count > 1)
+                    {
+                        //draw, no points
+                    }
+                    //don't add win count to CPU in tutorial or to any player if infinite match is enabled
+                    else if (deadFighter.Count == 1)
                     {
                         if (deadFighter[0] == fighter1)
                         {
-                            //don't add win count if in VS CPU, so that ml-agents solo training can loop forever
-                            if (!GameManager.Instance.isVsCPU)
+                            if (!GameManager.Instance.isInfiniteMatchEnabled && GameManager.Instance.gameMode != GameManager.GameMode.Tutorial)
                             {
                                 fighter2RoundWon++;
+                                fighter2.RequestWinAction();
                             }
-                            fighter2.RequestWinAction();
+                            if (GameManager.Instance.gameMode == GameManager.GameMode.AgentVsAgent)
+                            {
+                                trainingOpponentAgent.giveRoundOverReward(false);
+                                playingAgent.giveRoundOverReward(true);
+                            }
                         }
                         else if (deadFighter[0] == fighter2)
                         {
-                            fighter1RoundWon++;
-                            fighter1.RequestWinAction();
+                            if (GameManager.Instance.gameMode == GameManager.GameMode.Tutorial)
+                            {
+                                fighter1RoundWon++;
+                                fighter1.RequestWinAction();
+                                tutorialStage++;
+
+                            }
+                            else if (!GameManager.Instance.isInfiniteMatchEnabled)
+                            {
+                                fighter1RoundWon++;
+                                fighter1.RequestWinAction();
+                            }
+                            if (GameManager.Instance.gameMode == GameManager.GameMode.AgentVsAgent)
+                            {
+                                trainingOpponentAgent.giveRoundOverReward(true);
+                                playingAgent.giveRoundOverReward(false);
+                            }
                         }
                     }
 
@@ -287,6 +346,8 @@ namespace Footsies
             UpdatePushCharacterVsCharacter();
             UpdatePushCharacterVsBackground();
             UpdateHitboxHurtboxCollision();
+
+            FileSystem.Instance.StoreFighterData(fighter1, fighter2);
         }
 
         void UpdateKOState()
@@ -316,9 +377,18 @@ namespace Footsies
             var time = Time.fixedTime - roundStartTime;
 
             InputData p1Input = new InputData();
-            p1Input.input |= InputManager.Instance.GetButton(InputManager.Command.p1Left) ? (int)InputDefine.Left : 0;
-            p1Input.input |= InputManager.Instance.GetButton(InputManager.Command.p1Right) ? (int)InputDefine.Right : 0;
-            p1Input.input |= InputManager.Instance.GetButton(InputManager.Command.p1Attack) ? (int)InputDefine.Attack : 0;
+
+            if (trainingOpponentAgent != null)
+            {
+                p1Input.input |= trainingOpponentAgent.getNextAIInput();
+            }
+            else
+            {
+                p1Input.input |= InputManager.Instance.GetButton(InputManager.Command.p1Left) ? (int)InputDefine.Left : 0;
+                p1Input.input |= InputManager.Instance.GetButton(InputManager.Command.p1Right) ? (int)InputDefine.Right : 0;
+                p1Input.input |= InputManager.Instance.GetButton(InputManager.Command.p1Attack) ? (int)InputDefine.Attack : 0;
+            }
+           
             p1Input.time = time;
 
             if (debugP1Attack)
@@ -340,11 +410,10 @@ namespace Footsies
 
             InputData p2Input = new InputData();
 
-            //if (battleAI != null)
-            //{
-            //    p2Input.input |= battleAI.getNextAIInput();
-
-            //}
+            if (battleAI != null)
+            {
+                p2Input.input |= battleAI.getNextAIInput();
+            }
             if (playingAgent != null)
             {
                 p2Input.input |= playingAgent.getNextAIInput();
@@ -565,6 +634,50 @@ namespace Footsies
         {
             fighter1.SetupBattleStart(fighterDataList[0], new Vector2(-2f, 0f), true);
             fighter2.SetupBattleStart(fighterDataList[0], new Vector2(2f, 0f), false);
+        }
+
+        private void initialisePlayingAgent()
+        {
+            playingAgent = GameObject.Find("PlayingAgent").GetComponent<PlayingAgent>();
+            playingAgent.Initialize(this, true);
+        }
+
+        private void initialiseTrainingOpponentAgent()
+        {
+            trainingOpponentAgent = GameObject.Find("TrainingOpponentAgent").GetComponent<PlayingAgent>();
+            trainingOpponentAgent.Initialize(this, false);
+        }
+        private void initialiseBaseBattleAI()
+        {
+            battleAI = new BattleAI(this);
+        }
+
+        private void initialiseTutorial()
+        {
+            battleAI = new BattleAI(this);
+            battleAI.enableTutorialMode(tutorialStage);
+
+            tutorialPanel.SetActive(true);
+
+            switch (tutorialStage)
+            {
+                case 0:
+                    tutorialText[0].SetActive(true);
+                    tutorialText[1].SetActive(false);
+                    tutorialText[2].SetActive(false);
+                    break;
+                case 1:
+                    tutorialText[0].SetActive(false);
+                    tutorialText[1].SetActive(true);
+                    tutorialText[2].SetActive(false);
+                    break;
+                case 2:
+                    tutorialText[0].SetActive(false);
+                    tutorialText[1].SetActive(false);
+                    tutorialText[2].SetActive(true);
+                    break;
+            }
+
         }
     }
 

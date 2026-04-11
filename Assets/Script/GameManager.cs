@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Footsies
+
 {
     public class GameManager : Singleton<GameManager>
     {
@@ -13,10 +14,21 @@ namespace Footsies
             Battle = 2,
         }
 
+        public enum GameMode
+        {
+            Tutorial = 0,
+            PvsP = 1,
+            VsAgent = 2,
+            VsBaseCPU = 3,
+            AgentVsAgent = 4,
+        }
+
         public AudioClip menuSelectAudioClip;
 
         public SceneIndex currentScene { get; private set; }
-        public bool isVsCPU { get; private set; }
+        public GameMode gameMode { get; private set; }
+        public bool isFilewriteEnabled { get; private set; }
+        public bool isInfiniteMatchEnabled { get; private set; }
 
         private void Awake()
         {
@@ -28,6 +40,10 @@ namespace Footsies
         private void Start()
         {
             LoadTitleScene();
+            isFilewriteEnabled = true;
+            isInfiniteMatchEnabled = false;
+
+            //loadTrainingEnv(); //used for training build, remove when building for release
         }
 
         private void Update()
@@ -49,14 +65,71 @@ namespace Footsies
 
         public void LoadVsPlayerScene()
         {
-            isVsCPU = false;
+            gameMode = GameMode.PvsP;
             LoadBattleScene();
         }
 
-        public void LoadVsCPUScene()
+        public void LoadVsAgentScene()
         {
-            isVsCPU = true;
+            gameMode = GameMode.VsAgent;
             LoadBattleScene();
+        }
+
+        public void LoadAgentVsAgentScene()
+        {
+            gameMode = GameMode.AgentVsAgent;
+            LoadBattleScene();
+        }
+
+        public void LoadVsBaseCPU()
+        {
+            gameMode = GameMode.VsBaseCPU;
+            LoadBattleScene();
+        }
+
+        public void LoadTutorial()
+        {
+            gameMode = GameMode.Tutorial;
+            LoadBattleScene();
+        }
+
+        public void toggleSettingsMenu() 
+        {
+            Transform settingsMenu = GameObject.Find("TitleCanvas").transform.Find("SettingsMenuScreen");
+
+            if (settingsMenu.gameObject.active)
+            {
+                settingsMenu.gameObject.SetActive(false);
+            }
+            else settingsMenu.gameObject.SetActive(true);
+        }
+
+        public bool toggleFilewrite()
+        {
+            if (isFilewriteEnabled)
+            {
+                isFilewriteEnabled = false;
+            }
+            else
+            {
+                isFilewriteEnabled = true;
+            }
+
+            return isFilewriteEnabled;
+        }
+
+        public bool toggleMatchLooping()
+        {
+            if (isInfiniteMatchEnabled)
+            {
+                isInfiniteMatchEnabled = false;
+            }
+            else
+            {
+                isInfiniteMatchEnabled = true;
+            }
+
+            return isInfiniteMatchEnabled;
         }
 
         private void LoadBattleScene()
@@ -68,6 +141,19 @@ namespace Footsies
             {
                 SoundManager.Instance.playSE(menuSelectAudioClip);
             }
+        }
+
+        public bool checkCanFilewrite()
+        {
+            //don't write to files or store data if match is looping to avoid memory issues, or during the tutorial as it isn't a real match
+            return isFilewriteEnabled && gameMode != GameMode.Tutorial && !isInfiniteMatchEnabled;
+        }
+
+        private void loadTrainingEnv()
+        {
+            isFilewriteEnabled = false;
+            isInfiniteMatchEnabled = true;
+            LoadAgentVsAgentScene();
         }
     }
 

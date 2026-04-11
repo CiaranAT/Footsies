@@ -1,0 +1,30 @@
+{
+    "FootsiesAgent": {
+        "elo": 1200.0,
+        "checkpoints": [
+            {
+                "steps": 71192,
+                "file_path": "results\\FirstAmendedRewards\\FootsiesAgent\\FootsiesAgent-71192.onnx",
+                "reward": -24.261000088229775,
+                "creation_time": 1771438023.3630123,
+                "auxillary_file_paths": [
+                    "results\\FirstAmendedRewards\\FootsiesAgent\\FootsiesAgent-71192.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 71192,
+            "file_path": "results\\FirstAmendedRewards\\FootsiesAgent.onnx",
+            "reward": -24.261000088229775,
+            "creation_time": 1771438023.3630123,
+            "auxillary_file_paths": [
+                "results\\FirstAmendedRewards\\FootsiesAgent\\FootsiesAgent-71192.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.2.0.dev0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

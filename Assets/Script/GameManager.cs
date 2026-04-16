@@ -16,11 +16,11 @@ namespace Footsies
 
         public enum GameMode
         {
-            Tutorial = 0,
+            Tutorial = 0, //Added for honours project, basic tutorial against cpus with linear deterministic behaviour, used to onboard players during user testing
             PvsP = 1,
-            VsAgent = 2,
-            VsBaseCPU = 3,
-            AgentVsAgent = 4,
+            VsAgent = 2, //Added for honours project
+            VsBaseCPU = 3, //Amended for honours project, plays a match against the game's original CPU
+            AgentVsAgent = 4, //Added for honours project, both player 1 and 2 are the trained playing agent. Can be used for training agents at once by adjusting the behaviour parameters of the agent game objects in battleScene
         }
 
         public AudioClip menuSelectAudioClip;
@@ -43,7 +43,7 @@ namespace Footsies
             isFilewriteEnabled = true;
             isInfiniteMatchEnabled = false;
 
-            //loadTrainingEnv(); //used for training build, remove when building for release
+            //loadTrainingEnv(); //automatically loads agent training gamemode on game launch, used for training build, remove when building for release
         }
 
         private void Update()
@@ -93,7 +93,7 @@ namespace Footsies
             LoadBattleScene();
         }
 
-        public void toggleSettingsMenu() 
+        public void toggleSettingsMenu() // Added for honours, opens the settings menu on the title screen that can toggle filewrite and enable looping matches for use in project demo
         {
             Transform settingsMenu = GameObject.Find("TitleCanvas").transform.Find("SettingsMenuScreen");
 

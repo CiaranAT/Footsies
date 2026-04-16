@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.IO;
 using Footsies;
 
+/// <summary>
+/// Filewrite system for recording data from matches, used in data analysis of gameplay. Data is written to a .json at the path C:\Users\"YOURNAME"\AppData\Locallow\DefaultCompany\FOOTSIES
+/// </summary>
+
 public class FileSystem : MonoBehaviour
 {
     public static FileSystem Instance;
@@ -36,7 +40,7 @@ public class FileSystem : MonoBehaviour
         return Application.persistentDataPath + FILENAME_START + fileNameTime + FILENAME_END;
     }
 
-    public void StartNewMatchDataFile()
+    public void StartNewMatchDataFile() //record the start time of the match and store it for later writing
     {
         if (GameManager.Instance.checkCanFilewrite())
         {
@@ -51,7 +55,7 @@ public class FileSystem : MonoBehaviour
         }
     }
 
-    public void SaveMatchDataFile(BattleCore battleCore)
+    public void SaveMatchDataFile(BattleCore battleCore) //write all collected match data to file, then clear collected data
     {
         if (GameManager.Instance.checkCanFilewrite())
         {
@@ -64,7 +68,7 @@ public class FileSystem : MonoBehaviour
             matchSaveData.clearData();
         }
     }
-    public void StoreFighterData(Fighter fighter1, Fighter fighter2)
+    public void StoreFighterData(Fighter fighter1, Fighter fighter2) //collect the fighter data for the current frame, stored in a list that gets dumped to file
     {
         if (GameManager.Instance.checkCanFilewrite())
         {

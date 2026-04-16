@@ -5,7 +5,9 @@ using UnityEngine;
 namespace Footsies
 {
     //<summary>
-    // Original AI implementation, deciding inputs based on reading game state, using hard coded sequences with slight randomness
+    // Original AI implementation of FOOTSIES, deciding inputs based on reading game state, using hard coded sequences with slight randomness
+    // In the gamemode tutorial, this is replaced with 3 linear behaviour presets for the 3 tutorial stages.
+    // The original behaviour has not been modified, and is used in the VsBaseCPU gamemode
     //</summary>
 
 
@@ -57,11 +59,11 @@ namespace Footsies
                     input |= moveQueue.Dequeue();
                 else if (moveQueue.Count == 0)
                 {
-                    if (!isTutorialMode)
+                    if (!isTutorialMode) //default behaviour when not in tutorial
                     {
                         SelectMovement(fightState);
                     }
-                    else
+                    else //in tutorial, queue basic actions based on tutorial stage
                     {
                         switch (tutorialStage)
                         {
@@ -85,11 +87,11 @@ namespace Footsies
                     input |= attackQueue.Dequeue();
                 else if (attackQueue.Count == 0)
                 {
-                    if (!isTutorialMode)
+                    if (!isTutorialMode) //default behaviour when not in tutorial
                     {
                         SelectAttack(fightState);
                     }
-                    else
+                    else //in tutorial, queue basic actions based on tutorial stage
                     {
                         switch (tutorialStage)
                         {

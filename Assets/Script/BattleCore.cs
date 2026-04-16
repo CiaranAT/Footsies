@@ -32,10 +32,10 @@ namespace Footsies
         private GameObject roundUI;
 
         [SerializeField]
-        private GameObject tutorialPanel;
+        private GameObject tutorialPanel; //Added for honours, panel used for text in user testing tutorial
 
         [SerializeField]
-        private GameObject[] tutorialText;
+        private GameObject[] tutorialText; //Added for honours, list of preset texts used in tutorial to onboard players in user testing
 
         [SerializeField]
         private List<FighterData> fighterDataList = new List<FighterData>();
@@ -72,8 +72,8 @@ namespace Footsies
         private BattleAI battleAI = null;
         private int tutorialStage = 0;
 
-        private PlayingAgent playingAgent = null;
-        private PlayingAgent trainingOpponentAgent = null; //playing agent that replaces player 1 in CPUVsCPU gamemode 
+        private PlayingAgent playingAgent = null; //Added for honours, the primary playing agent that replaces fighter 2 in the VsAgent gamemode
+        private PlayingAgent trainingOpponentAgent = null; //Added for honours, additional playing agent that replaces fighter 1 in the AgentVsAgent gamemode, used for training or demos
 
         private static uint maxRecordingInputFrame = 60 * 60 * 5;
         private InputData[] recordingP1Input = new InputData[maxRecordingInputFrame];
@@ -129,7 +129,7 @@ namespace Footsies
                     UpdateIntroState();
 
                     timer -= Time.deltaTime;
-                    if (GameManager.Instance.gameMode == GameManager.GameMode.Tutorial)
+                    if (GameManager.Instance.gameMode == GameManager.GameMode.Tutorial) //can be skipped in tutorial
                     {
                         if ( timer <= 0f
                             || IsKOSkipButtonPressed())
@@ -259,7 +259,7 @@ namespace Footsies
                     roundUIAnimator.SetTrigger("RoundEnd");
 
                     break;
-                case RoundStateType.End:
+                case RoundStateType.End: //Section amended for honours
 
                     timer = endStateTime;
 
@@ -287,7 +287,7 @@ namespace Footsies
                         }
                         else if (deadFighter[0] == fighter2)
                         {
-                            if (GameManager.Instance.gameMode == GameManager.GameMode.Tutorial)
+                            if (GameManager.Instance.gameMode == GameManager.GameMode.Tutorial) //progress tutorial if player wins
                             {
                                 fighter1RoundWon++;
                                 fighter1.RequestWinAction();
@@ -636,6 +636,8 @@ namespace Footsies
             fighter2.SetupBattleStart(fighterDataList[0], new Vector2(2f, 0f), false);
         }
 
+            //HONOURS FUNCTIONALITY 
+
         private void initialisePlayingAgent()
         {
             playingAgent = GameObject.Find("PlayingAgent").GetComponent<PlayingAgent>();
@@ -652,7 +654,7 @@ namespace Footsies
             battleAI = new BattleAI(this);
         }
 
-        private void initialiseTutorial()
+        private void initialiseTutorial() //The tutorial initialises the battleAI in "tutorial mode", which changes it's behaviour from the original to one of three linear presets based on the current tutorial stage
         {
             battleAI = new BattleAI(this);
             battleAI.enableTutorialMode(tutorialStage);

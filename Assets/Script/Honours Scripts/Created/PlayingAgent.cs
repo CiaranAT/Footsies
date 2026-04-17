@@ -150,17 +150,31 @@ namespace Footsies
                     sensor.AddObservation(this_agent_pos);
                     sensor.AddObservation(this_agent_state);
 
-                        //the two following observations are delayed by human reaction speeds, as they are variables that describe the opponent which the agent cannot control
+                    //the two following observations are delayed by human reaction speeds, as they are variables that describe the opponent which the agent cannot control
                     //Game state observations
                     sensor.AddObservation(delayedObservation.fightersDistance);
 
                     //Observations of opponent     
                     sensor.AddObservation(delayedObservation.opponentAction);
 
-                    // this observation is not delayed, as the putting the opponent in hitstun is controllable by the agent, and is required to perform follow up attacks
+                    // this observation is not delayed, as the putting the opponent in hitstun is controllable by the agent, and viewing hitstun is required to perform follow up attacks
                     sensor.AddObservation(is_opponent_in_hitstun);
                 }
-                else AddPaddedObservations(sensor); //Add padded observations until observation queue has been filled
+                else //if delay queue has not been filled
+                {
+                    //Agent's self observations (these observations are not delayed as they are variables directly controlled by the agent)
+                    sensor.AddObservation(this_agent_pos);
+                    sensor.AddObservation(this_agent_state);
+
+                    //delayed observations are padded when queue has yet to be filled
+                    sensor.AddObservation(0);
+                    sensor.AddObservation(0);
+
+                    // this observation is not delayed, as the putting the opponent in hitstun is controllable by the agent, and viewing hitstun is required to perform follow up attacks
+                    sensor.AddObservation(is_opponent_in_hitstun);
+                }
+
+                AddPaddedObservations(sensor); 
 
                 Debug.Log("Fighter distance: " + fighters_dist);
                 Debug.Log("is player 2 " + isP2.ToString() + " - position: " + this_agent_pos + " - state: " + this_agent_state);
@@ -186,7 +200,7 @@ namespace Footsies
                     else { SetReward(-0.01f); }
                 }
             }
-            else AddPaddedObservations(sensor);
+            else AddPaddedObservations(sensor); //Add padded observations while inactive
         }
 
         public override void OnActionReceived(ActionBuffers actionBuffers)

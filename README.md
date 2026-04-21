@@ -1,3 +1,15 @@
+This project was developed for Abertay University as an honours project focusing on the use of Imitation Learning in fighting games.
+The project extends on the open-source code for the original game 'Footsies', adding functionality for use with the Unity ML-Agents package.
+
+To play the game, select one of the three opponents or the tutorial on the menu to begin a fight.
+Use WASD to move, use spacebar to attack.
+The tutorial guides you through the basic mechanics and strategies of the game.
+
+From the available opponents, Opponent 1 is the game's original computer behaviour, Opponent 2 is the new machine learning behaviour created for this project, Opponent 3 is controlled by player 2 with Arrow Keys and Shift. 
+This setup was used in a Turing Test style evaluation to see if users could guess which opponent was a real player.
+
+The following sections are unedited text from the original project's README on GitHub:
+
 # Footsies
 
 FOOTSIES is a 2D fighting game where players can control character movement horizontally 
